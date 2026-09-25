@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Are Legend</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #050508;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Plátno na efekty částic na pozadí */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Hlavní kontejner */
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 800px;
+            width: 90%;
+        }
+
+        /* Ikona koruny */
+        .crown-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            fill: url(#gold-gradient);
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Hlavní nápis */
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #fff6d1 0%, #ffd700 30%, #ff8c00 70%, #e65c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 180, 0, 0.3);
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        /* Podnadpis */
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: #a0aec0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 40px;
+        }
+
+        /* Efektní tlačítko */
+        .btn-glow {
+            position: relative;
+            display: inline-block;
+            padding: 16px 36px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #000;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            outline: none;
+            overflow: hidden;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.8);
+        }
+
+        .btn-glow:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Animace vznášení */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas pro efekty zlatých jiskřiček -->
+    <canvas id="sparks"></canvas>
+
+    <div class="container">
+        <!-- SVG Koruna -->
+        <svg class="crown-icon" viewBox="0 0 24 24">
+            <defs>
+                <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fff6d1" />
+                    <stop offset="50%" stop-color="#ffd700" />
+                    <stop offset="100%" stop-color="#ff8c00" />
+                </linearGradient>
+            </defs>
+            <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+        </svg>
+
+        <h1>You Are Legend</h1>
+        <p>Dokázal jsi to. Tvé úsilí přineslo své ovoce.</p>
+
+        <button class="btn-glow" onclick="createBurst()">Oslavit úspěch 🎉</button>
+    </div>
+
+    <script>
+        // Nastavení plátna
+        const canvas = document.getElementById('sparks');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Třída pro jiskry
+        class Spark {
+            constructor(x, y, isBurst = false) {
+                this.x = x !== undefined ? x : Math.random() * width;
+                this.y = y !== undefined ? y : Math.random() * height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = isBurst ? (Math.random() - 0.5) * 12 : (Math.random() - 0.5) * 1.5;
+                this.speedY = isBurst ? (Math.random() - 0.5) * 12 : (Math.random() - 0.5) * 1.5 - 0.5;
+                this.color = `hsl(${Math.random() * 20 + 40}, 100%, ${Math.random() * 30 + 50}%)`;
+                this.opacity = Math.random() * 0.8 + 0.2;
+                this.life = isBurst ? 100 : Infinity;
+                this.maxLife = this.life;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.life !== Infinity) {
+                    this.life--;
+                    this.opacity = this.life / this.maxLife;
+                } else {
+                    if (this.y < 0) this.y = height;
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#ffd700';
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Generování částic
+        const sparks = [];
+        for (let i = 0; i < 70; i++) {
+            sparks.push(new Spark());
+        }
+
+        // Animace
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = sparks.length
+ - 1; i >= 0; i--) {
+                sparks[i].update();
+                sparks[i].draw();
+
+                if (sparks[i].life <= 0) {
+                    sparks.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Efekt výbuchu při kliknutí
+        function createBurst() {
+            const centerX = width / 2;
+            const centerY = height / 2;
+
+            for (let i = 0; i < 80; i++) {
+                sparks.push(new Spark(centerX, centerY, true));
+            }
+        }
+    </script>
+</body>
+</html>
