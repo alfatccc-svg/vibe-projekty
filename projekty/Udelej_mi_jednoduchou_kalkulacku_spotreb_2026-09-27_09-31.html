@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulačka spotřeby paliva</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --accent-color: #3b82f6;
+      --accent-hover: #2563eb;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --input-bg: #334155;
+      --border-color: #475569;
+      --success-color: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-color);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      background-color: var(--bg-color);
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 45px 12px 14px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .unit {
+      position: absolute;
+      right: 14px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .results {
+      margin-top: 24px;
+      background-color: rgba(15, 23, 42, 0.6);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .result-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--success-color);
+    }
+
+    .result-value.highlight {
+      font-size: 1.3rem;
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>
+      ⛽ Kalkulačka spotřeby
+    </h1>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('consumption')">Spočítat spotřebu</button>
+      <button class="tab-btn" onclick="switchTab('plan')">Plánovat cestu</button>
+    </div>
+
+    <!-- REŽIM 1: Výpočet průměrné spotřeby -->
+    <div id="tab-consumption" class="tab-content active">
+      <div class="form-group">
+        <label for="c-distance">Ujetá vzdálenost</label>
+        <div class="input-wrapper">
+          <input type="number" id="c-distance" placeholder="např. 550" step="any" min="0" oninput="calculateConsumption()">
+          <span class="unit">km</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="c-fuel">Spotřebované palivo</label>
+        <div class="input-wrapper">
+          <input type="number" id="c-fuel" placeholder="např. 35" step="any" min="0" oninput="calculateConsumption()">
+          <span class="unit">l</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="c-price">Cena za litr (volitelné)</label>
+        <div class="input-wrapper">
+          <input type="number" id="c-price" placeholder="např. 38.50" step="any" min="0" oninput="calculateConsumption()">
+          <span class="unit">Kč</span>
+        </div>
+      </div>
+
+      <div class="results">
+        <div class="result-item">
+          <span class="result-label">Průměrná spotřeba:</span>
+          <span class="result-value highlight" id="res-c-avg">0.00 l/100 km</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Celková cena za palivo:</span>
+          <span class="result-value" id="res-c-total">0 Kč</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Cena za 1 km:</span>
+          <span class="result-value" id="res-c-per-km">0.00 Kč</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- REŽIM 2: Plánování cesty podle průměrné spotřeby -->
+    <div id="tab-plan" class="tab-content">
+      <div class="form-group">
+        <label for="p-distance">Plánovaná vzdálenost</label>
+        <div class="input-wrapper">
+          <input type="number" id="p-distance" placeholder="např. 320" step="any" min="0" oninput="calculatePlan()">
+          <span class="unit">km</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="p-avg">Průměrná spotřeba vozidla</label>
+        <div class="input-wrapper">
+          <input type="number" id="p-avg" placeholder="např. 6.2" step="any" min="0" oninput="calculatePlan()">
+          <span class="unit">l/100 km</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="p-price">Cena za litr</label>
+        <div class="input-wrapper">
+          <input type="number" id="p-price" placeholder="např. 38.50" step="any" min="0" oninput="calculatePlan()">
+          <span class="unit">Kč</span>
+        </div>
+      </div>
+
+      <div class="results">
+        <div class="result-item">
+          <span class="result-label">Potřebné palivo:</span>
+          <span class="result-value highlight" id="res-p-fuel">0.00 l</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Odhadovaná cena cesty:</span>
+          <span class="result-value" id="res-p-total">0 Kč</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Cena za 1 km:</span>
+          <span class="result-value" id="res-p-per-km">0.00 Kč</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(tabName) {
+      const tabs = document.querySelectorAll('.tab-btn');
+      const contents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      contents.forEach(content => content.classList.remove('active'));
+
+      if (tabName === 'consumption') {
+        tabs[0].classList.add('active');
+        document.getElementById('tab-consumption').classList.add('active');
+      } else {
+        tabs[1].classList.add('active');
+        document.getElementById('tab-plan').classList.add('active');
+      }
+    }
+
+    function calculateConsumption() {
+      const distance = parseFloat(document.getElementById('c-distance').value);
+      const fuel = parseFloat(document.getElementById('c-fuel').value);
+      const price = parseFloat(document.getElementById('c-price').value);
+
+      const resAvg = document.getElementById('res-c-avg');
+      const resTotal = document.getElementById('res-c-total');
+      const resPerKm = document.getElementById('res-c-per-km');
+
+      if (distance > 0 && fuel > 0) {
+        const avgConsumption = (fuel / distance) * 100;
+        resAvg.innerText = avgConsumption.toFixed(2) + ' l/100 km';
+
+        if (price > 0) {
+          const totalCost = fuel * price;
+          const costPerKm = totalCost / distance;
+          resTotal.innerText = totalCost.toFixed(2) + ' Kč';
+          resPerKm.innerText = costPerKm.toFixed(2) + ' Kč';
+        } else {
+          resTotal.innerText = '0 Kč';
+          resPerKm.innerText = '0.00 Kč';
+        }
+      } else {
+        resAvg.innerText = '0.00 l/100 km';
+        resTotal.innerText = '0 Kč';
+        resPerKm.innerText = '0.00 Kč';
+      }
+    }
+
+    function calculatePlan() {
+      const distance = parseFloat(document.getElementById('p-distance').value);
+      const avg = parseFloat(document.getElementById('p-avg').value);
+      const price = parseFloat(document.getElementById('p-price').value);
+
+      const resFuel = document.getElementById('res-p-fuel');
+      const resTotal = document.getElementById('res-p-total');
+      const resPerKm = document.getElementById('res-p-per-km');
+
+      if (distance > 0 && avg > 0) {
+        const neededFuel = (distance * avg) / 100;
+        resFuel.innerText = neededFuel.toFixed(2) + ' l';
+
+        if (price > 0) {
+          const totalCost = neededFuel * price;
+          const costPerKm = totalCost / distance;
+          resTotal.innerText = totalCost.toFixed(2) + ' Kč';
+          resPerKm.innerText = costPerKm.toFixed(2) + ' Kč';
+        } else {
+          resTotal.innerText = '0 Kč';
+          resPerKm.innerText = '0.00 Kč';
+        }
+      } else {
+        resFuel.innerText = '0.00 l';
+        resTotal.innerText = '0 Kč';
+        resPerKm.innerText = '0.00 Kč';
+      }
+    }
+  </script>
+</body>
+</html>
