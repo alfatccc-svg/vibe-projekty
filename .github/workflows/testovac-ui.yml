@@ -1,0 +1,106 @@
+name: Testovač UI
+# Spouští se zápisem požadavku (fronta/<ident>.json) do větve testovac-ui-fronta – dělá to n8n (Vinčák – Testovač UI).
+# Výsledky (vysledek.json + snímky) se zapíší do větve testovac-ui-vysledky/<ident>/ (drží se posledních 30 běhů).
+# n8n tak nepotřebuje žádná oprávnění ke GitHub Actions.
+
+on:
+  push:
+    branches: [testovac-ui-fronta]
+    paths: ['fronta/*.json']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: testovac-ui
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Požadavek z fronty
+        uses: actions/checkout@v4
+        with:
+          ref: testovac-ui-fronta
+          path: fronta-repo
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Načíst a zkontrolovat požadavek
+        id: poz
+        run: |
+          cd fronta-repo
+          F=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD -- 'fronta/*.json' 2>/dev/null | tail -1 || true)
+          [ -z "$F" ] && F=$(ls -t fronta/*.json | head -1)
+          python3 - "$F" >> "$GITHUB_OUTPUT" <<'EOF'
+          import json, re, sys
+          d = json.load(open(sys.argv[1]))
+          ident = re.sub(r'[^A-Za-z0-9_-]', '', str(d.get('ident', '')))[:60] or 'bez-oznaceni'
+          cesta = str(d.get('cesta', ''))
+          if cesta and (cesta.startswith('/') or '..' in cesta or not re.fullmatch(r'[A-Za-z0-9_./-]+', cesta)):
+              cesta = ''
+          url = str(d.get('url', ''))
+          if url and not re.fullmatch(r'https://[A-Za-z0-9.-]+(/[^\s"\'<>`$]*)?', url):
+              url = ''
+          ref = re.sub(r'[^A-Za-z0-9_./-]', '', str(d.get('ref', 'main')))[:60] or 'main'
+          print(f"ident={ident}"); print(f"cesta={cesta}"); print(f"url={url}"); print(f"ref={ref}")
+          EOF
+
+      - name: Nástroj (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: nastroj
+          persist-credentials: false
+
+      - name: Testovaný kód
+        if: ${{ steps.poz.outputs.cesta != '' }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.poz.outputs.ref }}
+          path: kod
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalace (Playwright + axe-core, pevné verze)
+        working-directory: nastroj/testovac-ui
+        run: |
+          npm install --no-audit --no-fund playwright@1.63.0 axe-core@4.13.0
+          npx playwright install --with-deps chromium
+
+      - name: Lokální server (stránka se testuje před zveřejněním)
+        if: ${{ steps.poz.outputs.cesta != '' }}
+        run: |
+          cd kod && (python3 -m http.server 8080 --bind 127.0.0.1 >/dev/null 2>&1 &)
+          sleep 2
+
+      - name: Test
+        working-directory: nastroj/testovac-ui
+        env:
+          CIL_URL: ${{ steps.poz.outputs.cesta != '' && format('http://127.0.0.1:8080/{0}', steps.poz.outputs.cesta) || steps.poz.outputs.url }}
+          IDENT: ${{ steps.poz.outputs.ident }}
+        run: |
+          if [ -z "$CIL_URL" ]; then mkdir -p vysledek; echo '{"verdikt":"chyby","chyby":["Neplatný požadavek (chybí cesta i adresa)"],"varovani":[],"zarizeni":[]}' > vysledek/vysledek.json; exit 0; fi
+          node test.mjs || echo '{"verdikt":"chyby","chyby":["Testovač UI spadl – viz log běhu"],"varovani":[],"zarizeni":[]}' > vysledek/vysledek.json
+
+      - name: Zapsat výsledky
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          IDENT: ${{ steps.poz.outputs.ident }}
+        run: |
+          REPO_URL="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git clone -q --depth 1 --branch testovac-ui-vysledky "$REPO_URL" vys 2>/dev/null; then :; else mkdir vys && cd vys && git init -q && cd ..; fi
+          cd vys
+          mkdir -p "$IDENT"
+          cp -r ../nastroj/testovac-ui/vysledek/. "$IDENT"/ 2>/dev/null || echo '{"verdikt":"chyby","chyby":["Žádný výsledek"]}' > "$IDENT/vysledek.json"
+          ls -d */ 2>/dev/null | sort | head -n -30 | xargs -r rm -rf
+          git checkout -q --orphan nova
+          git add -A
+          git -c user.name="Testovač UI" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Výsledky Testovače UI (poslední: $IDENT)"
+          git push -q -f "$REPO_URL" nova:testovac-ui-vysledky
