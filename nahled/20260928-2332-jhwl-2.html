@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Počítadlo stlačení</title>
+<style>
+body{
+    font-family:system-ui;
+    background:#ffffff;
+    color:#000000;
+    padding:16px;
+}
+button{
+    background:#ffd400;
+    color:#000000;
+    border:0;
+    padding:14px 20px;
+    font-size:18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+<h1>Počítadlo stlačení hrudníku</h1>
+<p>Klepni při každém stlačení. Cíl je 30 stlačení.</p>
+<p id="n">0</p>
+<button id="b">Stlačení</button>
+<script>
+let n=0;
+document.getElementById('b').addEventListener('click',()=>{ 
+    n++;
+    document.getElementById('n').textContent=n;
+});
+</script>
+</body>
+</html>
