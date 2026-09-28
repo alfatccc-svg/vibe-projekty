@@ -1,0 +1,6 @@
+{
+  "name": "vincak-testovac-ui",
+  "private": true,
+  "description": "Vinčák – Testovač UI: headless test stránek (mobil + počítač, konzole, přístupnost, snímky)",
+  "type": "module"
+}
