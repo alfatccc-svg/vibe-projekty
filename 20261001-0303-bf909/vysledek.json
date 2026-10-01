@@ -1,0 +1,40 @@
+{
+  "url": "http://127.0.0.1:8080/nahled/20261001-0303-gl45-1.html",
+  "ident": "20261001-0303-bf909",
+  "cas": "2026-10-01T01:04:22.466Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 1,
+      "prokliknuto": 0,
+      "cas_ms": 540,
+      "http": 200,
+      "text_znaku": 519,
+      "titulek": "Slepička – Hlídač líhnutí vajec"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 1,
+      "prokliknuto": 0,
+      "cas_ms": 515,
+      "http": 200,
+      "text_znaku": 519,
+      "titulek": "Slepička – Hlídač líhnutí vajec"
+    }
+  ],
+  "chyby": [],
+  "varovani": [],
+  "verdikt": "ok"
+}

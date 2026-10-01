@@ -1,0 +1,40 @@
+{
+  "url": "http://127.0.0.1:8080/nahled/20261001-0305-w99a-2.html",
+  "ident": "20261001-0308-wpzby",
+  "cas": "2026-10-01T01:08:58.195Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 4,
+      "prokliknuto": 1,
+      "cas_ms": 530,
+      "http": 200,
+      "text_znaku": 614,
+      "titulek": "Slepička Pro – Kompletní hlídač a manažer líhnutí"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 4,
+      "prokliknuto": 1,
+      "cas_ms": 517,
+      "http": 200,
+      "text_znaku": 614,
+      "titulek": "Slepička Pro – Kompletní hlídač a manažer líhnutí"
+    }
+  ],
+  "chyby": [],
+  "varovani": [],
+  "verdikt": "ok"
+}

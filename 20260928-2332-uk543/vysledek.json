@@ -1,0 +1,63 @@
+{
+  "url": "http://127.0.0.1:8080/nahled/20260928-2332-jhwl-1.html",
+  "ident": "20260928-2332-uk543",
+  "cas": "2026-09-28T21:33:25.227Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [
+        "spustitMetronom is not defined"
+      ],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [
+        {
+          "id": "color-contrast",
+          "dopad": "serious",
+          "popis": "Elements must meet minimum color contrast ratio thresholds",
+          "prvku": 3
+        }
+      ],
+      "preteceni": false,
+      "tlacitek": 1,
+      "prokliknuto": 1,
+      "cas_ms": 527,
+      "http": 200,
+      "text_znaku": 89,
+      "titulek": "Počítadlo stlačení"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [
+        "spustitMetronom is not defined"
+      ],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [
+        {
+          "id": "color-contrast",
+          "dopad": "serious",
+          "popis": "Elements must meet minimum color contrast ratio thresholds",
+          "prvku": 3
+        }
+      ],
+      "preteceni": false,
+      "tlacitek": 1,
+      "prokliknuto": 1,
+      "cas_ms": 517,
+      "http": 200,
+      "text_znaku": 89,
+      "titulek": "Počítadlo stlačení"
+    }
+  ],
+  "chyby": [
+    "Mobil (iPhone 13): chyba JavaScriptu – spustitMetronom is not defined",
+    "Počítač 1366×800: chyba JavaScriptu – spustitMetronom is not defined"
+  ],
+  "varovani": [
+    "Přístupnost (vážné): Elements must meet minimum color contrast ratio thresholds – 3×"
+  ],
+  "verdikt": "chyby"
+}

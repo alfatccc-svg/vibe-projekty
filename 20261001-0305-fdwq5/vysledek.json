@@ -1,0 +1,56 @@
+{
+  "url": "http://127.0.0.1:8080/nahled/20261001-0305-w99a-1.html",
+  "ident": "20261001-0305-fdwq5",
+  "cas": "2026-10-01T01:07:02.585Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [
+        {
+          "id": "aria-prohibited-attr",
+          "dopad": "serious",
+          "popis": "Elements must only use permitted ARIA attributes",
+          "prvku": 1
+        }
+      ],
+      "preteceni": false,
+      "tlacitek": 4,
+      "prokliknuto": 1,
+      "cas_ms": 538,
+      "http": 200,
+      "text_znaku": 614,
+      "titulek": "Slepička Pro – Kompletní hlídač a manažer líhnutí"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [
+        {
+          "id": "aria-prohibited-attr",
+          "dopad": "serious",
+          "popis": "Elements must only use permitted ARIA attributes",
+          "prvku": 1
+        }
+      ],
+      "preteceni": false,
+      "tlacitek": 4,
+      "prokliknuto": 1,
+      "cas_ms": 529,
+      "http": 200,
+      "text_znaku": 614,
+      "titulek": "Slepička Pro – Kompletní hlídač a manažer líhnutí"
+    }
+  ],
+  "chyby": [],
+  "varovani": [
+    "Přístupnost (vážné): Elements must only use permitted ARIA attributes – 1×"
+  ],
+  "verdikt": "varovani"
+}
