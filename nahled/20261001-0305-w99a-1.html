@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slepička Pro – Kompletní hlídač a manažer líhnutí</title>
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --primary: #b45309;
+      --primary-hover: #92400e;
+      --primary-light: #fef3c7;
+      --accent-blue: #0369a1;
+      --accent-blue-bg: #e0f2fe;
+      --success: #15803d;
+      --success-bg: #dcfce7;
+      --danger: #b91c1c;
+      --border-color: #cbd5e1;
+      --focus-ring: 3px solid #0284c7;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 16px;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    header {
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      width: 100%;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 550px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    input, button, select {
+      min-height: 44px;
+      font-size: 1rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="datetime-local"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: var(--text-main);
+    }
+
+    input:focus-visible, button:focus-visible, select:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 44px;
+      text-align: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: #f1f5f9;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #991b1b;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      min-height: 44px;
+      font-size: 0.875rem;
+    }
+
+    /* Batch Card */
+    .batch-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .batch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+
+    .batch-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .batch-dates {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status-active {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .status-lockdown {
+      background-color: var(--accent-blue-bg);
+      color: var(--accent-blue);
+    }
+
+    .status-finished {
+      background-color: var(--success-bg);
+      color: var(--success);
+    }
+
+    /* Progress & Countdown */
+    .progress-section {
+      margin: 16px 0;
+    }
+
+    .progress-bar-bg {
+      background-color: #e2e8f0;
+      height: 18px;
+      border-radius: 9px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .countdown-item {
+      background-color: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 4px;
+    }
+
+    .countdown-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .countdown-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Target Settings Box */
+    .targets-box {
+      background-color: #f1f5f9;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 16px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .target-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .target-item span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .target-item strong {
+      font-size: 1rem;
+      color: var(--text-main);
+    }
+
+    /* Instruction Box */
+    .instruction-box {
+      background-color: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 16px;
+    }
+
+    .instruction-box.lockdown {
+      background-color: var(--accent-blue-bg);
+      border-left-color: var(--accent-blue);
+    }
+
+    .instruction-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    /* Evaluation section */
+    .eval-box {
+      background-color: #faf5ff;
+      border: 1px solid #e9d5ff;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 16px;
+    }
+
+    .eval-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .eval-metric {
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #f3e8ff;
+      text-align: center;
+    }
+
+    .eval-metric-val {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #6b21a8;
+    }
+
+    .eval-metric-lbl {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    /* Modal / Dialog style */
+    .modal-backdrop {
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(15, 23, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 10px;
+      color: var(--text-muted);
+    }
+
+    .empty-state span {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <header>
+      <div>
+        <h1>🐣 Slepička Pro</h1>
+        <p>Inteligentní hlídač, nastavení hodnot a vyhodnocení líhnutí</p>
+      </div>
+      <button class="btn" onclick="openNewBatchModal()">
+        ➕ Nové líhnutí
+      </button>
+    </header>
+
+    <!-- Zobrazení probíhajících a dokončených líhnutí -->
+    <main id="batchesList">
+      <!-- Dynamicky vkládáno přes JS -->
+    </main>
+  </div>
+
+  <!-- MODÁLNÍ OKNO: Založení / Úprava líhnutí -->
+  <div id="batchModal" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <h2 id="modalTitle" style="margin-bottom: 16px;">Nové líhnutí</h2>
+      <form id="batchForm">
+        <input type="hidden" id="editBatchId">
+        
+        <div class="form-group">
+          <label for="batchName">Název snůšky / Druh</label>
+          <input type="text" id="batchName" placeholder="např. Vlašky koroptví" required>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="startDate">Datum a čas vložení</label>
+            <input type="datetime-local" id="startDate" required>
+          </div>
+
+          <div class="form-group">
+            <label for="eggCount">Nasazeno vajec (ks)</label>
+            <input type="number" id="eggCount" min="1" max="1000" value="12" required>
+          </div>
+        </div>
+
+        <hr style="margin: 16px 0; border: 0; border-top: 1px solid var(--border-color);">
+        <h3 style="font-size: 1rem; margin-bottom: 12px; color: var(--text-main);">⚙️ Nastavení cílových hodnot</h3>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="incubationDays">Délka inkubace (dní)</label>
+            <input type="number" id="incubationDays" value="21" min="1" max="60" required>
+          </div>
+
+          <div class="form-group">
+            <label for="lockdownDay">Den stop otáčení (klid)</label>
+            <input type="number" id="lockdownDay" value="18" min="1" max="60" required>
+          </div>
+
+          <div class="form-group">
+            <label for="temp1">Teplota Fáze 1 (°C)</label>
+            <input type="number" id="temp1" step="0.1" value="37.8" required>
+          </div>
+
+          <div class="form-group">
+            <label for="hum1">Vlhkost Fáze 1 (%)</label>
+            <input type="number" id="hum1" value="50" min="10" max="95" required>
+          </div>
+
+          <div class="form-group">
+            <label for="temp2">Teplota Líhnutí (°C)</label>
+            <input type="number" id="temp2" step="0.1" value="37.2" required>
+          </div>
+
+          <div class="form-group">
+            <label for="hum2">Vlhkost Líhnutí (%)</label>
+            <input type="number" id="hum2" value="70" min="10" max="95" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="turningNotes">Pokyny k otáčení (1. až stop den)</label>
+          <input type="text" id="turningNotes" value="Otáčet 2–3x denně o 180°" required>
+        </div>
+
+        <div class="actions-row" style="margin-top: 20px;">
+          <button type="submit" class="btn" style="flex: 1;">Uložit líhnutí</button>
+          <button type="button" class="btn btn-secondary" onclick="closeModal('batchModal')">Zrušit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODÁLNÍ OKNO: Záznam dat & Vyhodnocení -->
+  <div id="evalModal" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <h2 style="margin-bottom: 12px;">📊 Průběžné výsledky & Hodnocení</h2>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;" id="evalSubTitle"></p>
+
+      <form id="evalForm">
+        <input type="hidden" id="evalBatchId">
+
+        <div class="form-group">
+          <label for="fertileCount">Oplodněných vajec (po 1. / 2. prosvěcování)</label>
+          <input type="number" id="fertileCount" min="0" placeholder="Ponechte prázdné, pokud nevíte">
+          <small style="color: var(--text-muted); font-size: 0.8rem;">Slouží k výpočtu čisté líhnivosti oplodněných vajec.</small>
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="hatchedCount">Vylíhnuto zdravých kuřat</label>
+          <input type="number" id="hatchedCount" min="0" placeholder="Zadejte po skončení líhnutí">
+        </div>
+
+        <div class="form-group">
+          <label for="isFinished">
+            <input type="checkbox" id="isFinished" style="min-height: auto; width: auto; margin-right: 6px;">
+            Označit líhnutí jako zcela dokončené
+          </label>
+        </div>
+
+        <div class="actions-row" style="margin-top: 20px;">
+          <button type="submit" class="btn" style="flex: 1;">Uložit hodnocení</button>
+          <button type="button" class="btn btn-secondary" onclick="closeModal('evalModal')">Zavřít</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Úložiště klíč
+    const STORAGE_KEY = 'slepicka_pro_data_v1';
+
+    // Výchozí prázdná data
+    let batches = [];
+
+    // Načtení dat z localStorage
+    function loadData() {
+      const data = localStorage.getItem(STORAGE_KEY);
+      if (data) {
+        try {
+          batches = JSON.parse(data);
+        } catch(e) {
+          batches = [];
+        }
+      } else {
+        // Vytvořit ukázkovou snůšku, pokud je aplikace spuštěna poprvé
+        const defaultStart = new Date();
+        defaultStart.setDate(defaultStart.getDate() - 5); // 5 dní nazpět
+        
+        batches = [{
+          id: Date.now().toString(),
+          name: 'Ukázková snůška – Vlašky',
+          startDate: defaultStart.toISOString().slice(0, 16),
+          eggCount: 15,
+          incubationDays: 21,
+          lockdownDay: 18,
+          temp1: 37.8,
+          hum1: 50,
+          temp2: 37.2,
+          hum2: 70,
+          turningNotes: 'Otáčet 3x denně (ráno, poledne, večer)',
+          fertileCount: 13,
+          hatchedCount: null,
+          isFinished: false
+        }];
+        saveData();
+      }
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(batches));
+    }
+
+    // Formátování data pro zobrazení
+    function formatDateTime(isoString) {
+      const d = new Date(isoString);
+      return d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Výpočet časových údajů
+    function calculateProgress(batch) {
+      const start = new Date(batch.startDate).getTime();
+      const now = new Date().getTime();
+      const totalDurationMs = batch.incubationDays * 24 * 60 * 60 * 1000;
+      const end = start + totalDurationMs;
+
+      const elapsedMs = now - start;
+      const remainingMs = end - now;
+
+      // Dny a hodiny
+      const currentDay = Math.floor(elapsedMs / (1000 * 60 * 60 * 24)) + 1;
+      const progressPercent = Math.min(Math.max((elapsedMs / totalDurationMs) * 100, 0), 100);
+
+      let daysLeft = 0;
+      let hoursLeft = 0;
+      if (remainingMs > 0) {
+        daysLeft = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+        hoursLeft = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      }
+
+      const isLockdown = currentDay >= batch.lockdownDay && currentDay <= batch.incubationDays;
+      const isPast = now >= end || batch.isFinished;
+
+      return {
+        currentDay: currentDay < 1 ? 0 : currentDay,
+        progressPercent: progressPercent.toFixed(1),
+        daysLeft,
+        hoursLeft,
+        isLockdown,
+        isPast
+      };
+    }
+
+    // Vykreslení seznamu snůšek
+    function renderBatches() {
+      const container = document.getElementById('batchesList');
+      if (batches.length === 0) {
+        container.innerHTML = `
+          <div class="card empty-state">
+            <span>🥚</span>
+            <h3>Žádné aktivní líhnutí</h3>
+            <p>Založte svou první snůšku pomocí tlačítka "Nové líhnutí".</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = batches.map(batch => {
+        const prog = calculateProgress(batch);
+
+        // Určení stavového štítku a parametrů podle fáze
+        let statusBadge = '';
+        let currentTemp = batch.temp1;
+        let currentHum = batch.hum1;
+        let instructionTitle = '';
+        let instructionDesc = '';
+        let boxClass = 'instruction-box';
+
+        if (batch.isFinished || (prog.isPast && prog.currentDay > batch.incubationDays)) {
+          statusBadge = `<span class="status-badge status-finished">Dokončeno</span>`;
+          currentTemp = 'Vypnuto';
+          currentHum = '-';
+          instructionTitle = '🏁 Líhnutí bylo ukončeno';
+          instructionDesc = 'Zkontrolujte celkové výsledky a líheň důkladně vyčistěte a dezinfikujte.';
+        } else if (prog.isLockdown) {
+          statusBadge = `<span class="status-badge status-lockdown">🔒 Klidová fáze (Líhnutí)</span>`;
+          currentTemp = `${batch.temp2} °C`;
+          currentHum = `${batch.hum2} %`;
+          instructionTitle = '🛑 STOP otáčení! Neotevírat líheň!';
+          instructionDesc = `Vejce jsou v dolíhni. Udržujte vyšší vlhkost (${batch.hum2} %) a stabilní teplotu. Líheň neotevírejte, aby neunikla vlhkost.`;
+          boxClass = 'instruction-box lockdown';
+        } else {
+          statusBadge = `<span class="status-badge status-active">Inkubace (Den ${prog.currentDay})</span>`;
+          currentTemp = `${batch.temp1} °C`;
+          currentHum = `${batch.hum1} %`;
+          instructionTitle = '🔄 Probíhá pravidelné otáčení';
+          instructionDesc = `${batch.turningNotes}. Nezapomeňte doplňovat vodu pro udržení ${batch.hum1}% vlhkosti.`;
+        }
+
+        // Výpočet úspěšnosti
+        let evalHtml = '';
+        const initial = parseInt(batch.eggCount, 10);
+        const fertile = batch.fertileCount !== null && batch.fertileCount !== undefined && batch.fertileCount !== '' ? parseInt(batch.fertileCount, 10) : null;
+        const hatched = batch.hatchedCount !== null && batch.hatchedCount !== undefined && batch.hatchedCount !== '' ? parseInt(batch.hatchedCount, 10) : null;
+
+        if (fertile !== null || hatched !== null) {
+          const overallSuccess = hatched !== null ? ((hatched / initial) * 100).toFixed(1) : '-';
+          const fertileRate = fertile !== null ? ((fertile / initial) * 100).toFixed(1) : '-';
+          const hatchability = (hatched !== null && fertile) ? ((hatched / fertile) * 100).toFixed(1) : '-';
+
+          evalHtml = `
+            <div class="eval-box">
+              <strong style="font-size: 0.95rem; color: #581c87;">📈 Vyhodnocení líhnutí:</strong>
+              <div class="eval-grid">
+                <div class="eval-metric">
+                  <div class="eval-metric-val">${fertileRate}%</div>
+                  <div class="eval-metric-lbl">Oplodněnost (${fertile || 0}/${initial})</div>
+                </div>
+                <div class="eval-metric">
+                  <div class="eval-metric-val">${hatchability}%</div>
+                  <div class="eval-metric-lbl">Líhnivost z oplod.</div>
+                </div>
+                <div class="eval-metric">
+                  <div class="eval-metric-val" style="color: var(--primary);">${overallSuccess}%</div>
+                  <div class="eval-metric-lbl">Celková úspěšnost</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="batch-card">
+            <div class="batch-header">
+              <div>
+                <div class="batch-title">${escapeHtml(batch.name)}</div>
+                <div class="batch-dates">Nasazeno: ${formatDateTime(batch.startDate)} | Celkem: ${batch.eggCount} ks</div>
+              </div>
+              <div>${statusBadge}</div>
+            </div>
+
+            <div class="progress-section">
+              <div class="progress-bar-bg" aria-label="Progres líhnutí">
+                <div class="progress-bar-fill" style="width: ${prog.progressPercent}%;"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">
+                <span>Den ${prog.currentDay} z ${batch.incubationDays}</span>
+                <span>Progres ${prog.progressPercent} %</span>
+              </div>
+            </div>
+
+            <div class="countdown-grid">
+              <div class="countdown-item">
+                <div class="countdown-value">${prog.daysLeft} d</div>
+                <div class="countdown-label">Zbývá dní</div>
+              </div>
+              <div class="countdown-item">
+                <div class="countdown-value">${prog.hoursLeft} h</div>
+                <div class="countdown-label">Zbývá hodin</div>
+              </div>
+              <div class="countdown-item">
+                <div class="countdown-value">${batch.lockdownDay}. den</div>
+                <div class="countdown-label">Stop otáčení</div>
+              </div>
+            </div>
+
+            <div class="targets-box">
+              <div class="target-item">
+                <span>Cílová teplota</span>
+                <strong>🌡️ ${currentTemp}</strong>
+              </div>
+              <div class="target-item">
+                <span>Cílová vlhkost</span>
+                <strong>💧 ${currentHum}</strong>
+              </div>
+              <div class="target-item">
+                <span>Režim otáčení</span>
+                <strong>${prog.isLockdown || prog.isPast ? '❌ Vypnuto' : '🔄 Aktivní'}</strong>
+              </div>
+            </div>
+
+            <div class="${boxClass}">
+              <div class="instruction-title">${instructionTitle}</div>
+              <div class="instruction-desc" style="font-size: 0.9rem;">${instructionDesc}</div>
+            </div>
+
+            ${evalHtml}
+
+            <div class="actions-row">
+              <button class="btn btn-secondary btn-sm" onclick="openEvalModal('${batch.id}')">
+                📊 Zapsat výsledky / Prosvěcování
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="editBatch('${batch.id}')">
+                ✏️ Upravit nastavení
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="deleteBatch('${batch.id}')" aria-label="Smazat snůšku">
+                🗑️ Smazat
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Pomocná ochrana proti XSS
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Modální okna
+    function openNewBatchModal() {
+      document.getElementById('editBatchId').value = '';
+      document.getElementById('modalTitle').innerText = 'Nové líhnutí';
+      document.getElementById('batchForm').reset();
+      
+      // Nastavit datum na aktuální
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      document.getElementById('startDate').value = now.toISOString().slice(0, 16);
+
+      document.getElementById('batchModal').classList.remove('hidden');
+    }
+
+    function editBatch(id) {
+      const batch = batches.find(b => b.id === id);
+      if (!batch) return;
+
+      document.getElementById('editBatchId').value = batch.id;
+      document.getElementById('modalTitle').innerText = 'Úprava líhnutí a nastavení';
+      document.getElementById('batchName').value = batch.name;
+      document.getElementById('startDate').value = batch.startDate;
+      document.getElementById('eggCount').value = batch.eggCount;
+      document.getElementById('incubationDays').value = batch.incubationDays;
+      document.getElementById('lockdownDay').value = batch.lockdownDay;
+      document.getElementById('temp1').value = batch.temp1;
+      document.getElementById('hum1').value = batch.hum1;
+      document.getElementById('temp2').value = batch.temp2;
+      document.getElementById('hum2').value = batch.hum2;
+      document.getElementById('turningNotes').value = batch.turningNotes;
+
+      document.getElementById('batchModal').classList.remove('hidden');
+    }
+
+    function openEvalModal(id) {
+      const batch = batches.find(b => b.id === id);
+      if (!batch) return;
+
+      document.getElementById('evalBatchId').value = batch.id;
+      document.getElementById('evalSubTitle').innerText = `Snůška: ${batch.name} (${batch.eggCount} nasazených vajec)`;
+      document.getElementById('fertileCount').value = batch.fertileCount !== null && batch.fertileCount !== undefined ? batch.fertileCount : '';
+      document.getElementById('hatchedCount').value = batch.hatchedCount !== null && batch.hatchedCount !== undefined ? batch.hatchedCount : '';
+      document.getElementById('isFinished').checked = !!batch.isFinished;
+
+      document.getElementById('evalModal').classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    // Uložení formuláře pro snůšku
+    document.getElementById('batchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const id = document.getElementById('editBatchId').value;
+      const batchData = {
+        id: id ? id : Date.now().toString(),
+        name: document.getElementById('batchName').value.trim(),
+        startDate: document.getElementById('startDate').value,
+        eggCount: parseInt(document.getElementById('eggCount').value, 10),
+        incubationDays: parseInt(document.getElementById('incubationDays').value, 10),
+        lockdownDay: parseInt(document.getElementById('lockdownDay').value, 10),
+        temp1: parseFloat(document.getElementById('temp1').value),
+        hum1: parseInt(document.getElementById('hum1').value, 10),
+        temp2: parseFloat(document.getElementById('temp2').value),
+        hum2: parseInt(document.getElementById('hum2').value, 10),
+        turningNotes: document.getElementById('turningNotes').value.trim()
+      };
+
+      if (id) {
+        // Úprava
+        const index = batches.findIndex(b => b.id === id);
+        if (index !== -1) {
+          batches[index] = { ...batches[index], ...batchData };
+        }
+      } else {
+        // Nová
+        batchData.fertileCount = null;
+        batchData.hatchedCount = null;
+        batchData.isFinished = false;
+        batches.unshift(batchData);
+      }
+
+      saveData();
+      renderBatches();
+      closeModal('batchModal');
+    });
+
+    // Uložení vyhodnocení
+    document.getElementById('evalForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const id = document.getElementById('evalBatchId').value;
+      const index = batches.findIndex(b => b.id === id);
+
+      if (index !== -1) {
+        const fertileVal = document.getElementById('fertileCount').value;
+        const hatchedVal = document.getElementById('hatchedCount').value;
+
+        batches[index].fertileCount = fertileVal !== '' ? parseInt(fertileVal, 10) : null;
+        batches[index].hatchedCount = hatchedVal !== '' ? parseInt(hatchedVal, 10) : null;
+        batches[index].isFinished = document.getElementById('isFinished').checked;
+
+        saveData();
+        renderBatches();
+      }
+
+      closeModal('evalModal');
+    });
+
+    // Smazání snůšky
+    function deleteBatch(id) {
+      if (confirm('Opravdu chcete tuto snůšku vymazat? Data budou ztracena.')) {
+        batches = batches.filter(b => b.id !== id);
+        saveData();
+        renderBatches();
+      }
+    }
+
+    // Automatická obnova odpočtu každou minutu
+    setInterval(() => {
+      renderBatches();
+    }, 60000);
+
+    // Inicializace
+    loadData();
+    renderBatches();
+  </script>
+</body>
+</html>
