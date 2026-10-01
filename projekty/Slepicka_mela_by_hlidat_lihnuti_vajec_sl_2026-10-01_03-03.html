@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slepička – Hlídač líhnutí vajec</title>
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --primary: #b45309; /* Teplá jantarová s vysokým kontrastem */
+      --primary-hover: #92400e;
+      --accent-light: #fef3c7;
+      --border-color: #d1d5db;
+      --success: #047857;
+      --success-bg: #ecfdf5;
+      --warning: #c2410c;
+      --warning-bg: #fff7ed;
+      --focus-ring: 3px solid #3b82f6;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    * {
+      box-sizing: border-border-box;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 16px;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    header {
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    input, button, select {
+      min-height: 44px;
+      font-size: 1rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: var(--text-main);
+    }
+
+    input:focus-visible, button:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 20px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-danger {
+      background-color: #dc2626;
+      padding: 8px 12px;
+      min-height: 44px;
+      font-size: 0.875rem;
+      width: auto;
+    }
+
+    .btn-danger:hover {
+      background-color: #b91c1c;
+    }
+
+    .batch-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .batch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+
+    .batch-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .batch-sub {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-container {
+      background-color: #e5e7eb;
+      height: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 12px 0 6px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .task-box {
+      background-color: var(--accent-light);
+      border-left: 4px solid var(--primary);
+      padding: 12px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+
+    .task-title {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .task-desc {
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .param-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .param-item {
+      background: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+    }
+
+    .param-item strong {
+      display: block;
+      color: var(--text-main);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 30px 10px;
+      color: var(--text-muted);
+    }
+
+    .info-card {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+    }
+
+    .info-card h3 {
+      color: var(--success);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .info-card ul {
+      padding-left: 20px;
+      font-size: 0.9rem;
+      color: #166534;
+    }
+
+    .info-card li {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <header>
+      <h1>🐣 Slepička</h1>
+      <p>Hlídač a pomocník při líhnutí slepičích vajec (21 dní)</p>
+    </header>
+
+    <!-- Formulář pro novou snůšku -->
+    <section class="card" aria-labelledby="form-heading">
+      <h2 id="form-heading">Založit nové líhnutí</h2>
+      <form id="hatchForm">
+        <div class="form-group">
+          <label for="batchName">Název snůšky / plemeno</label>
+          <input type="text" id="batchName" placeholder="např. Vlašky – jarní líhnutí" required>
+        </div>
+
+        <div class="form-group">
+          <label for="startDate">Datum vložení do líhně</label>
+          <input type="date" id="startDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="eggCount">Počet nasazených vajec</label>
+          <input type="number" id="eggCount" min="1" max="500" value="10" required>
+        </div>
+
+        <button type="submit" class="btn">Spustit sledování líhnutí</button>
+      </form>
+    </section>
+
+    <!-- Seznam aktivních snůšek -->
+    <section aria-labelledby="active-heading">
+      <h2 id="active-heading" style="margin-bottom: 12px; font-size: 1.3rem;">Probíhající líhnutí</h2>
+      <div id="batchesContainer">
+        <!-- Zde se dynamicky vykreslují karty -->
+      </div>
+    </section>
+
+    <!-- Rychlá nápověda parametrů -->
+    <section class="card info-card">
+      <h3>💡 Stručný přehled pro líheň</h3>
+      <ul>
+        <li><strong>1.–18. den:</strong> Teplota 37,5–37,8 °C | Vlhkost 45–55 %</li>
+        <li><strong>Otáčení:</strong> 2× až 3× denně (od 3. do 18. dne)</li>
+        <li><strong>18. den:</strong> Zastavit otáčení, přesunout na líhní rošt</li>
+        <li><strong>19.–21. den:</strong> Zvýšit vlhkost na 65–75 %, neotvírat líheň!</li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    // Nastavení výchozího data na dnes
+    document.getElementById('startDate').valueAsDate = new Date();
+
+    // Načtení dat z localStorage
+    function getBatches() {
+      const data = localStorage.getItem('slepicka_batches');
+      return data ? JSON.parse(data) : [];
+    }
+
+    // Uložení dat do localStorage
+    function saveBatches(batches) {
+      localStorage.setItem('slepicka_batches', JSON.stringify(batches));
+    }
+
+    // Výpočet aktuálního dne a denních pokynů
+    function getDayInfo(dayNum) {
+      if (dayNum < 1) {
+        return {
+          phase: 'Příprava',
+          title: 'Vejce se zahřívají',
+          desc: 'První den líhnutí. Ujistěte se, že líheň drží stabilní teplotu 37,5–37,8 °C a vlhkost okolo 50 %.',
+          temp: '37,5–37,8 °C',
+          humidity: '45–55 %',
+          turning: 'Zatím neotáčet'
+        };
+      } else if (dayNum >= 1 && dayNum <= 2) {
+        return {
+          phase: 'Začátek inkubace',
+          title: 'Začátek vývoje',
+          desc: 'Ponechte vejce v klidu. Zkontrolujte teplotu a hladinu vody v líhni.',
+          temp: '37,5–37,8 °C',
+          humidity: '45–55 %',
+          turning: 'Neotáčet (nebo velmi jemně)'
+        };
+      } else if (dayNum >= 3 && dayNum <= 6) {
+        return {
+          phase: 'Inkubace & otáčení',
+          title: 'Pravidelné otáčení',
+          desc: 'Otáčejte vejce alespoň 2× až 3× denně o 180°, aby se zárodek nepřilepil ke skořápce.',
+          temp: '37,5–37,8 °C',
+          humidity: '45–55 %',
+          turning: '2–3× denně'
+        };
+      } else if (dayNum === 7) {
+        return {
+          phase: '🔍 1. Prosvěcování',
+          title: 'Kontrola oplodněnosti vajec',
+          desc: 'Prosviťte vejce baterkou v temnu. Oplodněné vejce má viditelnou cévní síťku ("pavoučka"). Clear/neoplodněná vejce vyřaďte.',
+          temp: '37,5–37,8 °C',
+          humidity: '45–55 %',
+          turning: '2–3× denně'
+        };
+      } else if (dayNum >= 8 && dayNum <= 13) {
+        return {
+          phase: 'Inkubace & otáčení',
+          title: 'Růst zárodku',
+          desc: 'Pokračujte v pravidelném otáčení a kontrole vody v odpařovacích miskách.',
+          temp: '37,5–37,8 °C',
+          humidity: '45–55 %',
+          turning: '2–3× denně'
+        };
+      } else if (dayNum === 14) {
+        return {
+          phase: '🔍 2. Prosvěcování',
+          title: 'Druhá kontrola vývoje',
+          desc: 'Prosviťte vejce podruhé. Většina prostoru by měla být tmavá s jasnou vzduchovou bublinou na tupém konci. Odumřelé zárodky vyřaďte.',
+          temp: '37,5–37,8 °C',
+          humidity: '45–55 %',
+          turning: '2–3× denně'
+        };
+      } else if (dayNum >= 15 && dayNum <= 17) {
+        return {
+          phase: 'Předlíheň',
+          title: 'Příprava na líhnutí',
+          desc: 'Stále pravidelně otáčejte. Můžete krátce chladit/větrat (5–10 min denně), pokud to váš typ líhně vyžaduje.',
+          temp: '37,5 °C',
+          humidity: '50–55 %',
+          turning: '2–3× denně'
+        };
+      } else if (dayNum === 18) {
+        return {
+          phase: '🛑 Zastavení otáčení!',
+          title: 'Přesun na dolíhnutí',
+          desc: 'DŮLEŽITÉ: Dnes naposledy otočte vejce! Vyjměte otočný rošt a položte vejce na dolíhovací mřížku. Zvyšte vlhkost!',
+          temp: '37,2–37,5 °C',
+          humidity: '65–70 %',
+          turning: 'NEOTÁČET!'
+        };
+      } else if (dayNum >= 19 && dayNum <= 20) {
+        return {
+          phase: '🐣 Klubání',
+          title: 'Líheň neotevírejte!',
+          desc: 'Kuřata se natáčejí do líhací polohy a začínají proklubávat skořápku. Neotevírejte líheň, abyste neztratili vlhkost!',
+          temp: '37,2 °C',
+          humidity: '70–75 %',
+          turning: 'NEOTÁČET!'
+        };
+      } else if (dayNum === 21) {
+        return {
+          phase: '🐥 Den D - Líhnutí!',
+          title: 'Kuřátka se líhnou!',
+          desc: 'Kuřata se líhnou. Nechte je v líhni úplně oschnout (až 24 hodin). Poté je přesunujte do vyhřáté odchovny.',
+          temp: '37,0–37,2 °C',
+          humidity: '70–75 %',
+          turning: 'NEOTÁČET!'
+        };
+      } else {
+        return {
+          phase: 'Konec líhnutí',
+          title: 'Líhnutí dokončeno',
+          desc: 'Ukončete inkubaci. Zbylá nevylíhnutá vejce vyřaďte a líheň důkladně vyčistěte a dezinfikujte.',
+          temp: 'Vypnuto',
+          humidity: '-',
+          turning: '-'
+        };
+      }
+    }
+
+    // Vykreslení karet
+    function renderBatches() {
+      const container = document.getElementById('batchesContainer');
+      const batches = getBatches();
+
+      if (batches.length === 0) {
+        container.innerHTML = `
+          <div class="card empty-state">
+            <p>Zatím nemáte žádné aktivní líhnutí.</p>
+            <p><small>Přidejte novou snůšku pomocí formuláře výše.</small></p>
+          </div>
+        `;
+        return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      container.innerHTML = batches.map((batch, index) => {
+        const start = new Date(batch.startDate);
+        start.setHours(0, 0, 0, 0);
+
+        const diffTime = today - start;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const currentDay = diffDays + 1; // Den 1 je den vložení
+
+        const totalDays = 21;
+        let progressPercent = Math.min(Math.max((currentDay / totalDays) * 100, 0), 100);
+        if (currentDay > totalDays) progressPercent = 100;
+
+        const info = getDayInfo(currentDay);
+
+        return `
+          <div class="batch-card">
+            <div class="batch-header">
+              <div>
+                <div class="batch-title">${escapeHtml(batch.name)}</div>
+                <div class="batch-sub">Nasazeno: ${formatDate(batch.startDate)} | Počet vajec: ${batch.eggCount} ks</div>
+              </div>
+              <button class="btn btn-danger" onclick="deleteBatch(${index})" aria-label="Smazat snůšku ${escapeHtml(batch.name)}">
+                Smazat
+              </button>
+            </div>
+
+            <div class="progress-bar-container" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: ${progressPercent}%;"></div>
+            </div>
+
+            <div class="progress-labels">
+              <span>Den ${currentDay > 0 ? currentDay : 0} z 21</span>
+              <span>${currentDay <= 21 ? (21 - currentDay) + ' dní do konce' : 'Líhnutí dokončeno'}</span>
+            </div>
+
+            <div class="task-box">
+              <div class="task-title">
+                📌 ${info.phase}: ${info.title}
+              </div>
+              <div class="task-desc">${info.desc}</div>
+            </div>
+
+            <div class="param-grid">
+              <div class="param-item">
+                <strong>🌡️ Teplota</strong>
+                ${info.temp}
+              </div>
+              <div class="param-item">
+                <strong>💧 Vlhkost</strong>
+                ${info.humidity}
+              </div>
+              <div class="param-item" style="grid-column: span 2;">
+                <strong>🔄 Otáčení vajec</strong>
+                ${info.turning}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Pomocná funkce proti XSS
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Formátování data
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('cs-CZ');
+    }
+
+    // Přidání nové snůšky
+    document.getElementById('hatchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('batchName').value.trim();
+      const startDate = document.getElementById('startDate').value;
+      const eggCount = parseInt(document.getElementById('eggCount').value, 10);
+
+      if (!name || !startDate || isNaN(eggCount)) return;
+
+      const batches = getBatches();
+      batches.unshift({
+        id: Date.now(),
+        name: name,
+        startDate: startDate,
+        eggCount: eggCount
+      });
+
+      saveBatches(batches);
+      renderBatches();
+
+      // Reset formuláře
+      document.getElementById('batchName').value = '';
+      document.getElementById('startDate').valueAsDate = new Date();
+      document.getElementById('eggCount').value = 10;
+    });
+
+    // Smazání snůšky
+    function deleteBatch(index) {
+      if (confirm('Opravdu chcete tuto snůšku odebrat?')) {
+        const batches = getBatches();
+        batches.splice(index, 1);
+        saveBatches(batches);
+        renderBatches();
+      }
+    }
+
+    // První vykreslení při načtení
+    renderBatches();
+  </script>
+</body>
+</html>
