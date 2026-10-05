@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="White Red Blue s.r.o. – nový typ SIM munice pro realistický a bezpečný výcvik, poradenství, řízení projektů a zahraniční obchod s vojenským materiálem.">
+<meta name="theme-color" content="#070A12">
+<title>WRBCZ · SIM munice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+[hidden] { display: none !important; }
+/* Layout: dark hero and accent bands alternate with white editorial sections; every shape follows the 24.4° slant of the WRBCZ logo. */
+:root {
+  --ink: #070A12;
+  --ink-2: #0D1220;
+  --ink-3: #151C2E;
+  --ink-deep: #04060B;
+  --paper: #FFFFFF;
+  --paper-2: #F2F4F8;
+  --text-dark: #0B1020;
+  --muted-dark: #4A5368;
+  --text-light: #F3F5F9;
+  --muted-light: #9AA3B7;
+  --line-on-light: rgba(11, 16, 32, 0.12);
+  --line-on-light-strong: rgba(11, 16, 32, 0.28);
+  --line-on-dark: rgba(255, 255, 255, 0.10);
+  --line-on-dark-strong: rgba(255, 255, 255, 0.24);
+  --header-bg: rgba(7, 10, 18, 0.86);
+  --grid-line: rgba(255, 255, 255, 0.045);
+  --field-bg: rgba(255, 255, 255, 0.035);
+  --field-bg-focus: rgba(255, 255, 255, 0.06);
+  --red: #EC200D;
+  --red-ui: #E01D0B;
+  --red-ui-hover: #C41808;
+  --red-soft: #FF6B5B;
+  --blue: #0433FF;
+  --blue-soft: #8FA4FF;
+  --blue-glow: rgba(4, 51, 255, 0.30);
+  --red-glow: rgba(236, 32, 13, 0.16);
+  --white: #FFFFFF;
+  --ghost-hover: rgba(255, 255, 255, 0.08);
+  --focus: #8FA4FF;
+  --shadow-card: rgba(4, 21, 102, 0.28);
+
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --wide: 115%;
+  --slant: -24.4deg;
+  --gutter: clamp(20px, 4vw, 48px);
+  --maxw: 1240px;
+  --header-h: 72px;
+  --section-pad: clamp(80px, 11vw, 148px);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text-dark);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html.no-scroll, html.no-scroll body { overflow: hidden; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+p { margin: 0; }
+::selection { background: var(--blue); color: var(--white); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+.skip-link {
+  position: absolute; left: 16px; top: -120px; z-index: 100;
+  padding: 12px 18px; background: var(--white); color: var(--text-dark);
+  font-weight: 600; text-decoration: none;
+}
+.skip-link:focus { top: calc(env(safe-area-inset-top, 0px) + 12px); }
+
+.wrap { width: min(var(--maxw), calc(100% - 2 * var(--gutter))); margin-inline: auto; }
+
+/* ---------- Type ---------- */
+.h1, .h2, .h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-stretch: var(--wide);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.h1 { font-size: clamp(2.5rem, 1.1rem + 5.2vw, 5.6rem); font-weight: 760; line-height: 0.98; letter-spacing: -0.03em; }
+.h2 { font-size: clamp(2rem, 1.15rem + 3vw, 3.6rem); font-weight: 720; line-height: 1.03; letter-spacing: -0.025em; }
+.h3 { font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem); font-weight: 680; line-height: 1.18; letter-spacing: -0.01em; }
+.lead { font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.3rem); line-height: 1.55; max-width: 58ch; }
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.eyebrow {
+  display: flex; align-items: center; gap: 14px;
+  margin: 0 0 22px;
+  color: var(--muted-dark);
+}
+.on-dark .eyebrow { color: var(--muted-light); }
+
+.tri { display: inline-flex; gap: 3px; flex: none; }
+.tri i { display: block; width: 9px; height: 11px; transform: skewX(var(--slant)); }
+.tri i:nth-child(1) { background: var(--white); box-shadow: inset 0 0 0 1px var(--line-on-light-strong); }
+.tri i:nth-child(2) { background: var(--red); }
+.tri i:nth-child(3) { background: var(--blue); }
+.on-dark .tri i:nth-child(1) { box-shadow: none; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  --h: 54px;
+  --bg: var(--red-ui);
+  --bd: transparent;
+  --fg: var(--white);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: var(--h);
+  padding: 0 calc(var(--h) * 0.4536 + 16px);
+  border: 0; background: none; cursor: pointer;
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 0.9375rem; font-weight: 650; letter-spacing: 0.05em; line-height: 1;
+  text-transform: uppercase; text-decoration: none; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn::before {
+  content: "";
+  position: absolute; top: 0; bottom: 0;
+  left: calc(var(--h) * 0.2268); right: calc(var(--h) * 0.2268);
+  z-index: -1;
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1.5px var(--bd);
+  transform: skewX(var(--slant));
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover { --bg: var(--red-ui-hover); }
+.btn:focus-visible { outline: none; }
+.btn:focus-visible::before { box-shadow: inset 0 0 0 1.5px var(--bd), 0 0 0 2px var(--ink), 0 0 0 4px var(--focus); }
+.btn .ico-arrow { width: 18px; height: 18px; flex: none; transition: transform 0.2s ease; }
+.btn:hover .ico-arrow { transform: translateX(3px); }
+.btn-ghost { --bg: transparent; --bd: var(--line-on-dark-strong); --fg: var(--text-light); }
+.btn-ghost:hover { --bg: var(--ghost-hover); --bd: var(--text-light); }
+.btn-sm { --h: 42px; font-size: 0.8125rem; padding: 0 calc(var(--h) * 0.4536 + 12px); }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding-top: env(safe-area-inset-top, 0px);
+  color: var(--text-light);
+}
+.site-header::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; z-index: 2;
+  background: linear-gradient(90deg, var(--white) 0 33.333%, var(--red) 33.333% 66.666%, var(--blue) 66.666% 100%);
+}
+.site-header::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--header-bg);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid var(--line-on-dark);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.site-header.is-scrolled::after, .site-header.menu-open::after { opacity: 1; }
+.header-inner { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+
+.brand { display: inline-flex; align-items: center; gap: 14px; text-decoration: none; color: var(--text-light); flex: none; }
+.brand-mark { display: block; width: 84px; height: auto; flex: none; }
+.brand-name {
+  font-family: var(--font-display); font-stretch: 125%; font-weight: 800;
+  font-size: 1.125rem; letter-spacing: 0.06em; line-height: 1;
+}
+
+.site-nav { display: flex; align-items: center; gap: clamp(20px, 2.6vw, 40px); }
+.nav-links { display: flex; gap: clamp(18px, 2.2vw, 32px); list-style: none; margin: 0; padding: 0; }
+.nav-links a {
+  position: relative; display: inline-block; padding: 8px 0;
+  font-size: 0.9375rem; font-weight: 500; text-decoration: none;
+  color: var(--muted-light); transition: color 0.2s ease;
+}
+.nav-links a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 2px; height: 2px;
+  background: var(--red); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover, .nav-links a.is-active { color: var(--text-light); }
+.nav-links a:hover::after, .nav-links a.is-active::after { transform: scaleX(1); }
+
+.nav-toggle {
+  display: none; align-items: center; gap: 12px;
+  height: 44px; padding: 0 2px 0 10px;
+  background: transparent; border: 0; cursor: pointer;
+  color: var(--text-light);
+  -webkit-tap-highlight-color: transparent;
+}
+.burger { position: relative; display: block; width: 26px; height: 14px; }
+.burger i { position: absolute; left: 0; right: 0; height: 2px; background: currentColor; transition: transform 0.28s ease, top 0.28s ease, opacity 0.2s ease; }
+.burger i:nth-child(1) { top: 0; }
+.burger i:nth-child(2) { top: 6px; }
+.burger i:nth-child(3) { top: 12px; }
+.menu-open .burger i:nth-child(1) { top: 6px; transform: rotate(45deg); }
+.menu-open .burger i:nth-child(2) { opacity: 0; }
+.menu-open .burger i:nth-child(3) { top: 6px; transform: rotate(-45deg); }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative; overflow: hidden;
+  background: var(--ink); color: var(--text-light);
+  padding-top: calc(var(--header-h) + clamp(44px, 7vw, 104px));
+  padding-bottom: clamp(8px, 2vw, 24px);
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 72% 38%, #000 25%, transparent 75%);
+  mask-image: radial-gradient(ellipse 75% 70% at 72% 38%, #000 25%, transparent 75%);
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(640px 420px at 82% 32%, var(--blue-glow), transparent 70%),
+    radial-gradient(520px 380px at 6% 0%, var(--red-glow), transparent 70%);
+}
+.hero > .wrap { position: relative; z-index: 1; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+}
+.hero-copy { min-width: 0; }
+.hero-copy .lead { margin-top: 28px; color: var(--muted-light); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px 16px; margin-top: 40px; }
+.hero-art-wrap { position: relative; min-width: 0; }
+.hero-art { display: block; width: 100%; height: auto; overflow: visible; }
+.art-frame {
+  --c: var(--line-on-dark-strong);
+  position: absolute; inset: -6px; pointer-events: none;
+  background:
+    linear-gradient(var(--c), var(--c)) left top / 16px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) left top / 1px 16px no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / 16px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / 1px 16px no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / 16px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / 1px 16px no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / 16px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / 1px 16px no-repeat;
+}
+.art-caption { margin-top: 14px; color: var(--muted-light); text-align: right; }
+
+@keyframes band-in { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
+@keyframes round-in { from { opacity: 0; transform: translate(-22px, 50px); } to { opacity: 1; transform: none; } }
+.hero-art .band { animation: band-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.hero-art .b2 { animation-delay: 0.1s; }
+.hero-art .b3 { animation-delay: 0.2s; }
+.hero-art .r { animation: round-in 1s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.hero-art .r1 { animation-delay: 0.35s; }
+.hero-art .r2 { animation-delay: 0.5s; }
+.hero-art .r3 { animation-delay: 0.65s; }
+
+.facts {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(56px, 8vw, 96px);
+  border-top: 1px solid var(--line-on-dark);
+}
+.fact { min-width: 0; padding: 24px 24px 28px 0; }
+.fact + .fact { padding-left: 24px; border-left: 1px solid var(--line-on-dark); }
+.fact .label { color: var(--blue-soft); margin-bottom: 8px; }
+.fact-v { font-size: 0.9375rem; line-height: 1.45; color: var(--text-light); }
+
+/* ---------- Sections ---------- */
+.section { padding-block: var(--section-pad); }
+.section-light { background: var(--paper); color: var(--text-dark); }
+.section-tint { background: var(--paper-2); color: var(--text-dark); }
+.section-dark { background: var(--ink); color: var(--text-light); color-scheme: dark; }
+
+.section-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 80px); align-items: end;
+  margin-bottom: clamp(48px, 7vw, 88px);
+}
+.section-head > * { min-width: 0; }
+.section-head .section-text { display: grid; gap: 16px; color: var(--muted-dark); max-width: 56ch; }
+.section-dark .section-head .section-text { color: var(--muted-light); }
+
+/* ---------- SIM munice ---------- */
+.features {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line-on-light);
+  border-left: 1px solid var(--line-on-light);
+}
+.feature {
+  min-width: 0;
+  padding: clamp(28px, 3vw, 40px);
+  border-right: 1px solid var(--line-on-light);
+  border-bottom: 1px solid var(--line-on-light);
+  background: var(--paper);
+  transition: background-color 0.25s ease;
+}
+.feature:hover { background: var(--paper-2); }
+.feature-ico {
+  display: grid; place-items: center;
+  width: 52px; height: 52px; margin-bottom: 28px;
+  color: var(--blue); border: 1px solid var(--line-on-light-strong);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.feature:hover .feature-ico { color: var(--red); border-color: var(--red); }
+.feature-ico svg { display: block; width: 26px; height: 26px; }
+.feature p { margin-top: 12px; color: var(--muted-dark); font-size: 1rem; }
+
+.sim-foot {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px); align-items: stretch;
+  margin-top: clamp(48px, 6vw, 72px);
+}
+.audience { min-width: 0; align-self: center; }
+.audience .label { color: var(--muted-dark); }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; margin: 18px 0 0; padding: 0; }
+.chips li {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid var(--line-on-light-strong);
+  font-size: 0.9375rem; font-weight: 500; line-height: 1.3;
+}
+.chips li::before { content: ""; flex: none; width: 7px; height: 10px; background: var(--red); transform: skewX(var(--slant)); }
+
+.datasheet {
+  position: relative; overflow: hidden; min-width: 0;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 16px;
+  padding: clamp(28px, 3.5vw, 44px);
+  background: var(--ink); color: var(--text-light);
+}
+.datasheet .label { color: var(--blue-soft); }
+.datasheet p { color: var(--muted-light); max-width: 44ch; }
+.datasheet .btn { margin-top: 8px; }
+.datasheet-mark { position: absolute; top: clamp(28px, 3.5vw, 44px); right: clamp(28px, 3.5vw, 44px); width: 64px; height: auto; opacity: 0.9; }
+
+/* ---------- O nás ---------- */
+.about-head { display: grid; gap: 28px; max-width: 820px; }
+.about-head .lead { color: var(--muted-light); }
+.values {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(56px, 7vw, 96px);
+  padding-inline: 32px;
+}
+.value { min-width: 0; }
+.swatch {
+  display: flex; align-items: flex-end;
+  height: clamp(96px, 10vw, 136px);
+  padding: 18px 26px;
+  margin-bottom: 34px;
+  transform: skewX(var(--slant));
+}
+.swatch span { display: block; transform: skewX(24.4deg); }
+.swatch-w { background: var(--white); color: var(--text-dark); }
+.swatch-r { background: var(--red); color: var(--white); }
+.swatch-b { background: var(--blue); color: var(--white); }
+.value-body { padding-right: clamp(16px, 3vw, 44px); }
+.value-body p { margin-top: 12px; color: var(--muted-light); font-size: 1rem; }
+
+/* ---------- Služby ---------- */
+.services { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-on-light); }
+.service {
+  position: relative;
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr) auto;
+  gap: clamp(16px, 3vw, 48px); align-items: baseline;
+  padding: clamp(26px, 3vw, 38px) 0;
+  border-bottom: 1px solid var(--line-on-light);
+}
+.service::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px;
+  background: var(--red); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.service:hover::before { transform: scaleX(1); }
+.service .h3 { font-size: clamp(1.35rem, 1.1rem + 1vw, 2rem); }
+.service p { color: var(--muted-dark); }
+.tag {
+  display: inline-block; padding: 6px 10px;
+  border: 1px solid currentColor; color: var(--blue); white-space: nowrap;
+}
+
+.process { margin-top: clamp(72px, 9vw, 112px); }
+.process > .label { color: var(--muted-dark); }
+.steps {
+  list-style: none; margin: 24px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(20px, 2.4vw, 32px);
+}
+.step { min-width: 0; padding-top: 26px; border-top: 2px solid var(--text-dark); }
+.step:last-child { border-top-color: var(--red); }
+.step-num {
+  display: block; margin-bottom: 18px;
+  font-family: var(--font-display); font-stretch: 125%; font-weight: 800;
+  font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem); line-height: 1;
+  color: var(--text-dark);
+}
+@supports (-webkit-text-stroke: 1px black) {
+  .step-num { color: transparent; -webkit-text-stroke: 1.5px var(--text-dark); }
+}
+.step p { margin-top: 10px; color: var(--muted-dark); font-size: 1rem; }
+
+/* ---------- Licence ---------- */
+.license { position: relative; overflow: hidden; background: var(--blue); color: var(--white); padding-block: clamp(72px, 9vw, 124px); }
+.license::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(114.4deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 30px);
+  -webkit-mask-image: linear-gradient(90deg, transparent 10%, #000 70%);
+  mask-image: linear-gradient(90deg, transparent 10%, #000 70%);
+}
+.license > .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(32px, 6vw, 96px); align-items: center; }
+.license-copy { min-width: 0; display: grid; gap: 24px; }
+.license .label { color: var(--white); opacity: 0.85; }
+.license-title { font-size: clamp(1.75rem, 1rem + 2.6vw, 3.25rem); max-width: 22ch; }
+.license-copy p:last-child { max-width: 62ch; opacity: 0.9; }
+.badge { position: relative; width: clamp(156px, 17vw, 212px); aspect-ratio: 1; flex: none; }
+.badge-ring { display: block; width: 100%; height: 100%; animation: spin 40s linear infinite; }
+.badge-core {
+  position: absolute; inset: 25%; border-radius: 50%;
+  display: grid; place-items: center; align-content: center; gap: 6px;
+  background: var(--white); color: var(--text-dark);
+}
+.badge-core b { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: clamp(1.4rem, 1rem + 1.2vw, 1.9rem); line-height: 1; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Partneři ---------- */
+.partners { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+.partner {
+  position: relative; min-width: 0;
+  display: flex; flex-direction: column;
+  padding: clamp(28px, 3vw, 40px);
+  background: var(--paper); color: var(--text-dark);
+  border: 1px solid var(--line-on-light);
+  text-decoration: none;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.partner::before {
+  content: ""; position: absolute; left: -1px; right: -1px; top: -1px; height: 3px;
+  background: var(--blue); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.partner:hover { border-color: var(--line-on-light-strong); transform: translateY(-3px); box-shadow: 0 22px 44px -28px var(--shadow-card); }
+.partner:hover::before { transform: scaleX(1); }
+.partner .label { color: var(--blue); }
+.partner-name {
+  margin: 18px 0 14px;
+  font-family: var(--font-display); font-stretch: var(--wide); font-weight: 720;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); line-height: 1.05; letter-spacing: -0.015em;
+}
+.partner p { margin-bottom: 30px; color: var(--muted-dark); font-size: 1rem; }
+.partner-link {
+  margin-top: auto; display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.04em;
+  color: var(--text-dark);
+}
+.partner-link svg { width: 14px; height: 14px; flex: none; transition: transform 0.2s ease; }
+.partner:hover .partner-link svg { transform: translate(2px, -2px); }
+
+/* ---------- Kontakt ---------- */
+.contact-grid { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(40px, 6vw, 96px); align-items: start; }
+.contact-intro { min-width: 0; }
+.contact-intro .lead { margin-top: 24px; color: var(--muted-light); }
+.contact-list { list-style: none; margin: 40px 0 0; padding: 0; border-top: 1px solid var(--line-on-dark); }
+.contact-list li {
+  display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 16px; align-items: baseline;
+  padding: 18px 0; border-bottom: 1px solid var(--line-on-dark);
+}
+.contact-list .label { color: var(--muted-light); }
+.contact-list a { text-decoration: none; border-bottom: 1px solid var(--line-on-dark-strong); transition: border-color 0.2s ease; overflow-wrap: anywhere; }
+.contact-list a:hover { border-bottom-color: var(--red); }
+
+.form-panel { min-width: 0; padding: clamp(24px, 3.5vw, 48px); background: var(--ink-2); border: 1px solid var(--line-on-dark); }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 20px; }
+.field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.field-full { grid-column: 1 / -1; }
+.field label { color: var(--muted-light); }
+.field input, .field select, .field textarea {
+  width: 100%; min-width: 0;
+  padding: 14px 16px;
+  font: inherit; font-size: 16px; line-height: 1.4;
+  color: var(--text-light);
+  background-color: var(--field-bg);
+  border: 1px solid var(--line-on-dark-strong); border-radius: 0;
+  -webkit-appearance: none; appearance: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.field textarea { min-height: 150px; resize: vertical; }
+.field select {
+  padding-right: 46px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 6l5 5 5-5' fill='none' stroke='%239AA3B7' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center; background-size: 14px 14px;
+}
+.field select option { background-color: var(--ink-2); color: var(--text-light); }
+.field input::placeholder, .field textarea::placeholder { color: var(--muted-light); opacity: 0.7; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--blue-soft); background-color: var(--field-bg-focus);
+  box-shadow: 0 0 0 3px rgba(143, 164, 255, 0.22);
+}
+.field [aria-invalid="true"] { border-color: var(--red-soft); }
+.field input:-webkit-autofill, .field input:-webkit-autofill:hover, .field input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text-light);
+  box-shadow: 0 0 0 1000px var(--ink-3) inset;
+  transition: background-color 9999s ease 0s;
+}
+.error { color: var(--red-soft); font-size: 0.875rem; line-height: 1.4; }
+.consent { display: flex; gap: 12px; align-items: flex-start; color: var(--muted-light); font-size: 0.9375rem; line-height: 1.5; cursor: pointer; }
+.consent input { width: 20px; height: 20px; margin: 1px 0 0; flex: none; accent-color: var(--red); cursor: pointer; }
+.form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: 30px; }
+.form-note { color: var(--muted-light); font-size: 0.875rem; max-width: 34ch; }
+
+.result { display: grid; gap: 18px; }
+.result:focus { outline: none; }
+.result .h3 { color: var(--text-light); }
+.result p { color: var(--muted-light); }
+.result textarea {
+  width: 100%; min-height: 200px; padding: 16px;
+  font-family: var(--font-mono); font-size: 0.875rem; line-height: 1.6;
+  color: var(--text-light); background: var(--field-bg);
+  border: 1px solid var(--line-on-dark-strong); border-radius: 0; resize: vertical;
+}
+.result-actions { display: flex; flex-wrap: wrap; gap: 12px 14px; }
+.result-status { min-height: 1.4em; color: var(--blue-soft); font-size: 0.9375rem; }
+.link-btn {
+  justify-self: start; padding: 8px 0;
+  background: none; border: 0; cursor: pointer;
+  color: var(--muted-light); font: inherit; font-size: 0.9375rem;
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.link-btn:hover { color: var(--text-light); }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--ink-deep); color: var(--muted-light); padding-block: clamp(56px, 7vw, 88px) 32px; color-scheme: dark; }
+.footer-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 40px; }
+.footer-grid > * { min-width: 0; }
+.footer-brand p { max-width: 40ch; margin-top: 22px; font-size: 0.9375rem; }
+.footer-col .label { color: var(--text-light); }
+.footer-col ul { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+.footer-col a { color: var(--muted-light); text-decoration: none; font-size: 0.9375rem; overflow-wrap: anywhere; transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--text-light); }
+.footer-bottom {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px;
+  margin-top: 56px; padding-top: 24px;
+  border-top: 1px solid var(--line-on-dark);
+  font-size: 0.875rem;
+}
+.footer-bottom a { color: var(--muted-light); text-decoration: none; }
+.footer-bottom a:hover { color: var(--text-light); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1080px) {
+  .partners { grid-template-columns: minmax(0, 1fr); }
+  .partner { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); column-gap: 40px; align-items: start; }
+  .partner .label { grid-column: 1; }
+  .partner-name { grid-column: 1; margin-bottom: 0; }
+  .partner p { grid-column: 2; grid-row: 1 / span 2; margin-bottom: 16px; }
+  .partner-link { grid-column: 2; }
+}
+@media (max-width: 1024px) {
+  .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 960px) {
+  .nav-toggle { display: inline-flex; }
+  .site-nav {
+    position: fixed; inset: 0; z-index: -1;
+    flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 36px;
+    padding: calc(env(safe-area-inset-top, 0px) + var(--header-h) + 28px) var(--gutter) calc(env(safe-area-inset-bottom, 0px) + 32px);
+    background: var(--ink);
+    overflow-y: auto; overscroll-behavior: contain;
+    visibility: hidden; opacity: 0; transform: translateY(-8px);
+    transition: opacity 0.28s ease, transform 0.28s ease, visibility 0s linear 0.28s;
+  }
+  .menu-open .site-nav { visibility: visible; opacity: 1; transform: none; transition: opacity 0.28s ease, transform 0.28s ease, visibility 0s; }
+  .nav-links { flex-direction: column; gap: 0; }
+  .nav-links li { border-bottom: 1px solid var(--line-on-dark); }
+  .nav-links a {
+    display: block; padding: 18px 0;
+    font-family: var(--font-display); font-stretch: var(--wide);
+    font-size: clamp(1.5rem, 1rem + 3vw, 2.1rem); font-weight: 700; letter-spacing: -0.01em;
+    color: var(--text-light);
+  }
+  .nav-links a::after { display: none; }
+  .nav-links a.is-active { color: var(--blue-soft); }
+  .site-nav .btn { align-self: flex-start; }
+
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-art-wrap { width: 100%; max-width: 540px; margin-inline: auto; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fact { padding: 20px 16px 22px 0; }
+  .fact + .fact { padding-left: 0; border-left: 0; }
+  .fact:nth-child(even) { padding-left: 20px; border-left: 1px solid var(--line-on-dark); }
+  .fact:nth-child(n+3) { border-top: 1px solid var(--line-on-dark); }
+
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
+  .contact-grid { grid-template-columns: minmax(0, 1fr); }
+  .footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 860px) {
+  .section-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .sim-foot { grid-template-columns: minmax(0, 1fr); }
+  .values { grid-template-columns: minmax(0, 1fr); gap: 52px; padding-inline: 0; }
+  .swatch { height: 76px; margin: 0 18px 26px; padding: 14px 22px; }
+  .value-body { padding-right: 0; }
+  .service { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .service .tag { justify-self: start; order: -1; }
+  .license > .wrap { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 680px) {
+  .partner { display: flex; }
+  .partner-name { margin-bottom: 14px; }
+  .partner p { margin-bottom: 28px; }
+  .contact-list li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
+@media (max-width: 600px) {
+  .features { grid-template-columns: minmax(0, 1fr); }
+  .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .datasheet-mark { width: 52px; }
+}
+@media (max-width: 520px) {
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .btn:not(.btn-sm) { --h: 52px; width: 100%; padding-inline: 34px; font-size: 0.875rem; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .art-caption { text-align: left; }
+}
+@media (max-width: 399px) {
+  .facts { grid-template-columns: minmax(0, 1fr); }
+  .fact:nth-child(even) { padding-left: 0; border-left: 0; }
+  .fact + .fact { border-top: 1px solid var(--line-on-dark); }
+  .brand-mark { width: 64px; }
+  .brand { gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#obsah">Přeskočit na obsah</a>
+
+<header class="site-header" id="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="WRBCZ, White Red Blue s.r.o., na začátek stránky">
+      <svg class="brand-mark" viewBox="0 0 1189 222" aria-hidden="true" focusable="false">
+        <path d="M0 222 L363 222 L463 0 L100 0 Z" fill="#FFFFFF"/>
+        <path d="M363 222 L726 222 L826 0 L463 0 Z" fill="#EC200D"/>
+        <path d="M726 222 L1089 222 L1189 0 L826 0 Z" fill="#0433FF"/>
+      </svg>
+      <span class="brand-name">WRBCZ</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Otevřít menu">
+      <span class="label nav-toggle-text" aria-hidden="true">Menu</span>
+      <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Hlavní navigace">
+      <ul class="nav-links">
+        <li><a href="#sim">SIM munice</a></li>
+        <li><a href="#o-nas">O nás</a></li>
+        <li><a href="#sluzby">Služby</a></li>
+        <li><a href="#partneri">Partneři</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <a class="btn btn-sm" href="#kontakt" data-subject="Poptávka SIM munice">Poptávka</a>
+    </nav>
+  </div>
+</header>
+
+<main id="obsah">
+  <!-- HERO -->
+  <section class="hero on-dark" id="top" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow label"><span class="tri" aria-hidden="true"><i></i><i></i><i></i></span>White Red Blue&nbsp;s.r.o. · Česká republika</p>
+          <h1 class="h1" id="hero-title">Výcvik jako v&nbsp;ostrém nasazení.</h1>
+          <p class="lead">Nový typ SIM munice pro realistický a&nbsp;bezpečný výcvik ozbrojených a&nbsp;bezpečnostních složek. Česká precizita od vývoje až po licencovanou dodávku.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#kontakt" data-subject="Poptávka SIM munice">Poptat SIM munici
+              <svg class="ico-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 10h12M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="#sluzby">Naše služby</a>
+          </div>
+        </div>
+
+        <figure class="hero-art-wrap" style="margin:0">
+          <span class="art-frame" aria-hidden="true"></span>
+          <svg class="hero-art" viewBox="0 50 640 500" role="img" aria-labelledby="art-title">
+            <title id="art-title">Ilustrace: tři náboje SIM munice s bílým, červeným a modrým značkovacím projektilem</title>
+            <defs>
+              <linearGradient id="g-case" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#262C36"/>
+                <stop offset="0.1" stop-color="#5B6473"/>
+                <stop offset="0.25" stop-color="#D9DFE6"/>
+                <stop offset="0.33" stop-color="#FFFFFF"/>
+                <stop offset="0.43" stop-color="#B8C0CB"/>
+                <stop offset="0.65" stop-color="#697282"/>
+                <stop offset="0.85" stop-color="#323945"/>
+                <stop offset="0.94" stop-color="#4A5360"/>
+                <stop offset="1" stop-color="#232832"/>
+              </linearGradient>
+              <linearGradient id="g-tip-w" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#6F7784"/>
+                <stop offset="0.14" stop-color="#C3C9D2"/>
+                <stop offset="0.3" stop-color="#FFFFFF"/>
+                <stop offset="0.42" stop-color="#EEF1F5"/>
+                <stop offset="0.7" stop-color="#AEB6C1"/>
+                <stop offset="0.9" stop-color="#737B88"/>
+                <stop offset="1" stop-color="#545B67"/>
+              </linearGradient>
+              <linearGradient id="g-tip-r" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#4D0803"/>
+                <stop offset="0.14" stop-color="#A3160A"/>
+                <stop offset="0.3" stop-color="#FF8370"/>
+                <stop offset="0.4" stop-color="#F23A24"/>
+                <stop offset="0.7" stop-color="#B8180B"/>
+                <stop offset="0.9" stop-color="#6A0B05"/>
+                <stop offset="1" stop-color="#420602"/>
+              </linearGradient>
+              <linearGradient id="g-tip-b" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#010A4A"/>
+                <stop offset="0.14" stop-color="#0321B5"/>
+                <stop offset="0.3" stop-color="#93A8FF"/>
+                <stop offset="0.4" stop-color="#2552FF"/>
+                <stop offset="0.7" stop-color="#0326C7"/>
+                <stop offset="0.9" stop-color="#021373"/>
+                <stop offset="1" stop-color="#010940"/>
+              </linearGradient>
+              <linearGradient id="g-tip-shade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#000000" stop-opacity="0.38"/>
+                <stop offset="0.45" stop-color="#000000" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="g-band-w" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.16"/>
+                <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.02"/>
+              </linearGradient>
+              <linearGradient id="g-band-r" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#EC200D" stop-opacity="0.36"/>
+                <stop offset="1" stop-color="#EC200D" stop-opacity="0.04"/>
+              </linearGradient>
+              <linearGradient id="g-band-b" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#0433FF" stop-opacity="0.46"/>
+                <stop offset="1" stop-color="#0433FF" stop-opacity="0.06"/>
+              </linearGradient>
+              <filter id="f-drop" x="-50%" y="-30%" width="200%" height="170%" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+                <feOffset dx="10" dy="22"/>
+                <feComponentTransfer><feFuncA type="linear" slope="0.55"/></feComponentTransfer>
+                <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <path id="tip" d="M-45 -186 L-45 -214 C-45 -252 -27 -283 -11 -294 Q0 -300 11 -294 C27 -283 45 -252 45 -214 L45 -186 Z"/>
+              <g id="case">
+                <path d="M-48 0 L-49.5 -1.6 L-49.5 -11 L-43 -14 L-42 -19 L-48.8 -27 L-48.2 -191 L48.2 -191 L48.8 -27 L42 -19 L43 -14 L49.5 -11 L49.5 -1.6 L48 0 Z" fill="url(#g-case)"/>
+                <path d="M-43 -14 L-42 -19 L42 -19 L43 -14 Z" fill="#000000" fill-opacity="0.38"/>
+                <path d="M-42 -19 L-48.8 -27 L48.8 -27 L42 -19 Z" fill="#000000" fill-opacity="0.12"/>
+                <path d="M-49.5 -11 H49.5" stroke="#FFFFFF" stroke-opacity="0.28" stroke-width="1"/>
+                <path d="M-48.2 -191 H48.2" stroke="#000000" stroke-opacity="0.45" stroke-width="1.6"/>
+                <path d="M-48.2 -188.5 H48.2" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="1"/>
+              </g>
+            </defs>
+
+            <g fill="#FFFFFF" fill-opacity="0.5" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" letter-spacing="1.6">
+              <text x="15" y="96">FORCE-ON-FORCE</text>
+              <text x="625" y="530" text-anchor="end">WRBCZ</text>
+            </g>
+
+            <path class="band b1" d="M15 500 L155 500 L345.5 80 L205.5 80 Z" fill="url(#g-band-w)" stroke="#FFFFFF" stroke-opacity="0.38" stroke-width="1"/>
+            <path class="band b2" d="M155 500 L295 500 L485.5 80 L345.5 80 Z" fill="url(#g-band-r)" stroke="#EC200D" stroke-opacity="0.75" stroke-width="1"/>
+            <path class="band b3" d="M295 500 L435 500 L625.5 80 L485.5 80 Z" fill="url(#g-band-b)" stroke="#5C7CFF" stroke-opacity="0.85" stroke-width="1"/>
+
+            <g stroke="#FFFFFF" stroke-opacity="0.18" fill="none">
+              <path d="M0 500.5 H640"/>
+              <path d="M85 500 V510 M225 500 V510 M365 500 V510"/>
+            </g>
+            <g fill="#FFFFFF" fill-opacity="0.55" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" letter-spacing="1.6" text-anchor="middle">
+              <text x="85" y="530">BÍLÁ</text>
+              <text x="225" y="530">ČERVENÁ</text>
+              <text x="365" y="530">MODRÁ</text>
+            </g>
+
+            <g class="r r1" filter="url(#f-drop)">
+              <g transform="translate(180.25 290) rotate(24.4) scale(0.92) translate(0 148.5)">
+                <use href="#tip" xlink:href="#tip" fill="url(#g-tip-w)"/>
+                <use href="#tip" xlink:href="#tip" fill="url(#g-tip-shade)"/>
+                <use href="#case" xlink:href="#case"/>
+              </g>
+            </g>
+            <g class="r r2" filter="url(#f-drop)">
+              <g transform="translate(320.25 290) rotate(24.4) scale(0.92) translate(0 148.5)">
+                <use href="#tip" xlink:href="#tip" fill="url(#g-tip-r)"/>
+                <use href="#tip" xlink:href="#tip" fill="url(#g-tip-shade)"/>
+                <use href="#case" xlink:href="#case"/>
+              </g>
+            </g>
+            <g class="r r3" filter="url(#f-drop)">
+              <g transform="translate(460.25 290) rotate(24.4) scale(0.92) translate(0 148.5)">
+                <use href="#tip" xlink:href="#tip" fill="url(#g-tip-b)"/>
+                <use href="#tip" xlink:href="#tip" fill="url(#g-tip-shade)"/>
+                <use href="#case" xlink:href="#case"/>
+              </g>
+            </g>
+          </svg>
+          <figcaption class="art-caption label">Ilustrační vizualizace · barevné značení zásahu</figcaption>
+        </figure>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><p class="label">B2B · B2G</p><p class="fact-v">Obranný průmysl a&nbsp;ozbrojené složky</p></div>
+        <div class="fact"><p class="label">Licence</p><p class="fact-v">Zahraniční obchod s&nbsp;vojenským materiálem</p></div>
+        <div class="fact"><p class="label">Komplexně</p><p class="fact-v">Poradenství, řízení projektů a&nbsp;vývoj produktů</p></div>
+        <div class="fact"><p class="label">Česká firma</p><p class="fact-v">Tradice strojírenství a&nbsp;zbrojní výroby</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIM MUNICE -->
+  <section class="section section-light" id="sim" aria-labelledby="sim-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow label"><span class="tri" aria-hidden="true"><i></i><i></i><i></i></span>Nový typ SIM munice</p>
+          <h2 class="h2" id="sim-title">Realita výcviku bez rizika ostré munice.</h2>
+        </div>
+        <div class="section-text">
+          <p>SIM munice umožňuje vést taktický výcvik proti živému protivníkovi přímo v&nbsp;prostředí, kde se skutečně zasahuje: v&nbsp;budovách, vozidlech i&nbsp;v&nbsp;terénu.</p>
+          <p>Jednotky si osvojují správné návyky, rozhodování pod tlakem a&nbsp;souhru týmu. Zásah je vidět a&nbsp;výsledek lze okamžitě vyhodnotit.</p>
+        </div>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <div class="feature-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="7.5"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <h3 class="h3">Realistická odezva</h3>
+          <p>Manipulace se zbraní i&nbsp;průběh střelby co nejvěrněji odpovídají ostrému nasazení.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/><path d="M12 3v3.5M12 17.5V21M3 12h3.5M17.5 12H21M5.6 5.6l2.4 2.4M16 16l2.4 2.4M18.4 5.6L16 8M8 16l-2.4 2.4"/></svg>
+          </div>
+          <h3 class="h3">Viditelný zásah</h3>
+          <p>Barevné značení ukáže každý zásah. Vyhodnocení je okamžité a&nbsp;nezpochybnitelné.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l7.5 3v5.6c0 4.7-3.1 8.4-7.5 9.8-4.4-1.4-7.5-5.1-7.5-9.8V5.8l7.5-3z"/><path d="M8.6 12.2l2.4 2.4 4.6-4.8"/></svg>
+          </div>
+          <h3 class="h3">Bezpečný výcvik</h3>
+          <p>Výrazně nižší energie než u&nbsp;ostré munice. Výcvik probíhá s&nbsp;ochrannou výbavou a&nbsp;podle jasných pravidel.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 21h19"/><path d="M4.5 21V9.5L11 5l6.5 4.5V21"/><path d="M17.5 21v-8h3V21"/><path d="M8.5 21v-5h5v5"/><path d="M8.5 11h1.5M12 11h1.5"/></svg>
+          </div>
+          <h3 class="h3">Výcvik kdekoli</h3>
+          <p>Budovy, vozidla, zástavba i&nbsp;uzavřené prostory. Bez nutnosti ostré střelnice.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 20.5h18"/><path d="M6 20.5v-6M11 20.5V9M16 20.5v-9M21 4l-5 4-4-2.5L6 10"/></svg>
+          </div>
+          <h3 class="h3">Měřitelné výsledky</h3>
+          <p>Podklady pro rozbor po akci (AAR) a&nbsp;objektivní hodnocení jednotlivců i&nbsp;týmů.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l8.5 4.5-8.5 4.5L3.5 8 12 3.5z"/><path d="M3.5 12.5l8.5 4.5 8.5-4.5"/><path d="M3.5 16.5l8.5 4.5 8.5-4.5"/></svg>
+          </div>
+          <h3 class="h3">Podpora zavedení</h3>
+          <p>Pomůžeme s&nbsp;integrací do výcvikových programů, scénářů i&nbsp;logistiky.</p>
+        </article>
+      </div>
+
+      <div class="sim-foot">
+        <div class="audience">
+          <h3 class="label">Pro koho</h3>
+          <ul class="chips">
+            <li>Ozbrojené síly</li>
+            <li>Policie</li>
+            <li>Speciální jednotky</li>
+            <li>Bezpečnostní sbory</li>
+            <li>Výcviková centra</li>
+            <li>Výrobci a&nbsp;integrátoři</li>
+          </ul>
+        </div>
+        <div class="datasheet on-dark">
+          <svg class="datasheet-mark" viewBox="0 0 1189 222" aria-hidden="true" focusable="false">
+            <path d="M0 222 L363 222 L463 0 L100 0 Z" fill="#FFFFFF"/>
+            <path d="M363 222 L726 222 L826 0 L463 0 Z" fill="#EC200D"/>
+            <path d="M726 222 L1089 222 L1189 0 L826 0 Z" fill="#0433FF"/>
+          </svg>
+          <p class="label">Technická dokumentace</p>
+          <h3 class="h3">Parametry na vyžádání</h3>
+          <p>Ráže, technické parametry a&nbsp;podmínky dodávek poskytujeme ověřeným zákazníkům na vyžádání.</p>
+          <a class="btn" href="#kontakt" data-subject="Technická dokumentace SIM munice">Vyžádat dokumentaci
+            <svg class="ico-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 10h12M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O NÁS -->
+  <section class="section section-dark on-dark" id="o-nas" aria-labelledby="about-title">
+    <div class="wrap">
+      <div class="about-head">
+        <p class="eyebrow label"><span class="tri" aria-hidden="true"><i></i><i></i><i></i></span>O společnosti</p>
+        <h2 class="h2" id="about-title">Bílá. Červená. Modrá.</h2>
+        <p class="lead">Název White Red Blue i&nbsp;naše logo odkazují na českou trikoloru. Není to náhoda. Hlásíme se k&nbsp;tradici českého strojírenství a&nbsp;zbrojní výroby, která je ve světě uznávaná pro svou kvalitu. Navazujeme na ni s&nbsp;hrdostí a&nbsp;s&nbsp;odpovědností vůči všem, kdo chrání naši bezpečnost.</p>
+      </div>
+
+      <div class="values">
+        <div class="value">
+          <div class="swatch swatch-w"><span class="label">Bílá</span></div>
+          <div class="value-body">
+            <h3 class="h3">Preciznost</h3>
+            <p>Čistá technická řešení, přesnost v&nbsp;detailu a&nbsp;kvalita, kterou lze ověřit.</p>
+          </div>
+        </div>
+        <div class="value">
+          <div class="swatch swatch-r"><span class="label">Červená</span></div>
+          <div class="value-body">
+            <h3 class="h3">Odhodlání</h3>
+            <p>Projekty dotahujeme do konce. Naše nasazení nekončí podpisem smlouvy.</p>
+          </div>
+        </div>
+        <div class="value">
+          <div class="swatch swatch-b"><span class="label">Modrá</span></div>
+          <div class="value-body">
+            <h3 class="h3">Spolehlivost</h3>
+            <p>Důvěra zákazníků i&nbsp;partnerů stojí na diskrétnosti, odbornosti a&nbsp;dodržených slibech.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLUŽBY -->
+  <section class="section section-light" id="sluzby" aria-labelledby="services-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow label"><span class="tri" aria-hidden="true"><i></i><i></i><i></i></span>Služby</p>
+          <h2 class="h2" id="services-title">Od prvního nápadu po dodávku.</h2>
+        </div>
+        <div class="section-text">
+          <p>Propojujeme výrobce, vývojáře a&nbsp;koncové uživatele v&nbsp;obranném průmyslu. Zákazníkům ze soukromého i&nbsp;státního sektoru nabízíme podporu v&nbsp;celém průběhu projektu.</p>
+        </div>
+      </div>
+
+      <ul class="services">
+        <li class="service">
+          <h3 class="h3">Poradenství</h3>
+          <p>Odborné poradenství pro výrobce, integrátory i&nbsp;státní zadavatele. Od analýzy potřeb po výběr vhodné technologie.</p>
+          <span class="tag label">Strategie</span>
+        </li>
+        <li class="service">
+          <h3 class="h3">Řízení projektů</h3>
+          <p>Vedeme projekty od zadání přes vývoj a&nbsp;testování až po dodávku a&nbsp;následnou podporu.</p>
+          <span class="tag label">Realizace</span>
+        </li>
+        <li class="service">
+          <h3 class="h3">Vývoj produktů</h3>
+          <p>Vyvíjíme a&nbsp;zdokonalujeme produkty pro ozbrojené složky s&nbsp;důrazem na praktické nasazení a&nbsp;bezpečnost.</p>
+          <span class="tag label">Inovace</span>
+        </li>
+        <li class="service">
+          <h3 class="h3">Klíčoví zákazníci</h3>
+          <p>Zajišťujeme komunikaci s&nbsp;klíčovými zákazníky B2B i&nbsp;B2G. Srozumitelně, diskrétně a&nbsp;se znalostí specifik veřejných zakázek.</p>
+          <span class="tag label">B2B · B2G</span>
+        </li>
+        <li class="service">
+          <h3 class="h3">Zahraniční obchod</h3>
+          <p>Jako držitel licence zajišťujeme zahraniční obchod s&nbsp;vojenským materiálem v&nbsp;souladu s&nbsp;legislativou České republiky.</p>
+          <span class="tag label">Licence</span>
+        </li>
+      </ul>
+
+      <div class="process">
+        <h3 class="label">Jak postupujeme</h3>
+        <ol class="steps">
+          <li class="step">
+            <span class="step-num" aria-hidden="true">01</span>
+            <h4 class="h3">Analýza</h4>
+            <p>Seznámíme se s&nbsp;vaším výcvikem, prostředím a&nbsp;požadavky.</p>
+          </li>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">02</span>
+            <h4 class="h3">Návrh řešení</h4>
+            <p>Navrhneme konfiguraci, technologii a&nbsp;vhodné partnery.</p>
+          </li>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">03</span>
+            <h4 class="h3">Ověření</h4>
+            <p>Předvedeme řešení v&nbsp;praxi a&nbsp;doladíme ho podle zpětné vazby.</p>
+          </li>
+          <li class="step">
+            <span class="step-num" aria-hidden="true">04</span>
+            <h4 class="h3">Dodávka a&nbsp;podpora</h4>
+            <p>Zajistíme licencovanou dodávku, logistiku i&nbsp;dlouhodobou podporu.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- LICENCE -->
+  <section class="license on-dark" id="licence" aria-labelledby="license-title">
+    <div class="wrap">
+      <div class="license-copy">
+        <p class="label">Licencovaný obchod</p>
+        <h2 class="h2 license-title" id="license-title">Licence k&nbsp;zahraničnímu obchodu s&nbsp;vojenským materiálem</h2>
+        <p>Obchodní případy realizujeme v&nbsp;souladu se zákonem č.&nbsp;38/1994&nbsp;Sb., o&nbsp;zahraničním obchodu s&nbsp;vojenským materiálem, a&nbsp;s&nbsp;mezinárodními závazky České republiky. Citlivé informace našich zákazníků chráníme.</p>
+      </div>
+      <div class="badge" aria-hidden="true">
+        <svg class="badge-ring" viewBox="0 0 200 200" focusable="false">
+          <defs><path id="ring-path" d="M100 100 m-80 0 a80 80 0 1 1 160 0 a80 80 0 1 1 -160 0"/></defs>
+          <circle cx="100" cy="100" r="97" fill="none" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1"/>
+          <text fill="#FFFFFF" font-family="JetBrains Mono, ui-monospace, monospace" font-size="11" letter-spacing="1.9"><textPath href="#ring-path" xlink:href="#ring-path">LICENCOVANÝ OBCHOD · VOJENSKÝ MATERIÁL · ČESKÁ REPUBLIKA ·</textPath></text>
+        </svg>
+        <div class="badge-core">
+          <b>CZ</b>
+          <span class="tri"><i></i><i></i><i></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNEŘI -->
+  <section class="section section-tint" id="partneri" aria-labelledby="partners-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow label"><span class="tri" aria-hidden="true"><i></i><i></i><i></i></span>Partneři</p>
+          <h2 class="h2" id="partners-title">Silní partneři. Ověřené technologie.</h2>
+        </div>
+        <div class="section-text">
+          <p>S&nbsp;partnery nabízíme ucelená řešení pro výcvik, simulaci a&nbsp;taktickou medicínu.</p>
+        </div>
+      </div>
+
+      <div class="partners">
+        <a class="partner" href="https://unitsolution.eu" target="_blank" rel="noopener noreferrer">
+          <span class="label">Cvičné zbraně</span>
+          <span class="partner-name">UNIT Solutions Europe</span>
+          <p>Cvičná puška UNIT4 postavená na platformě AR a&nbsp;kompaktní pistole UNIT9. Realistický zpětný ráz a&nbsp;bezpečný výcvik bez ostré munice.</p>
+          <span class="partner-link">unitsolution.eu
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5 11l6-6M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </span>
+        </a>
+        <a class="partner" href="https://www.xmetix.com" target="_blank" rel="noopener noreferrer">
+          <span class="label">Taktická medicína</span>
+          <span class="partner-name">Xmetix</span>
+          <p>Automatický turniket TAK710 pro rychlé zastavení masivního krvácení. Navržený pro armádu, policii, hasiče i&nbsp;záchranáře.</p>
+          <span class="partner-link">xmetix.com
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5 11l6-6M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </span>
+        </a>
+        <a class="partner" href="https://www.bagirasys.com" target="_blank" rel="noopener noreferrer">
+          <span class="label">Simulace a&nbsp;výcvik</span>
+          <span class="partner-name">Bagira Systems</span>
+          <p>Simulační a&nbsp;výcvikové systémy pro živý, virtuální i&nbsp;konstruktivní výcvik. Force-on-force, JTAC, UAV i&nbsp;dělostřelectvo.</p>
+          <span class="partner-link">bagirasys.com
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5 11l6-6M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section class="section section-dark on-dark" id="kontakt" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="contact-intro">
+        <p class="eyebrow label"><span class="tri" aria-hidden="true"><i></i><i></i><i></i></span>Kontakt</p>
+        <h2 class="h2" id="contact-title">Pojďme probrat váš výcvik.</h2>
+        <p class="lead">Napište nám, s&nbsp;čím potřebujete pomoci. Ozveme se vám a&nbsp;domluvíme další postup.</p>
+        <ul class="contact-list">
+          <li><span class="label">E-mail</span><span><a href="mailto:info@example.com">info@example.com</a></span></li>
+          <li><span class="label">Telefon</span><span><a href="tel:+420000000000">+420 000 000 000</a></span></li>
+          <li><span class="label">Společnost</span><span>White Red Blue s.r.o.<br>Česká republika</span></li>
+        </ul>
+      </div>
+
+      <div class="form-panel">
+        <form id="contact-form" novalidate data-recipient="info@example.com">
+          <div class="form-grid">
+            <div class="field">
+              <label class="label" for="f-name">Jméno a&nbsp;příjmení</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="f-name-error">
+              <p class="error" id="f-name-error" hidden></p>
+            </div>
+            <div class="field">
+              <label class="label" for="f-org">Organizace</label>
+              <input id="f-org" name="organization" type="text" autocomplete="organization" required aria-describedby="f-org-error">
+              <p class="error" id="f-org-error" hidden></p>
+            </div>
+            <div class="field">
+              <label class="label" for="f-email">E-mail</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="f-email-error">
+              <p class="error" id="f-email-error" hidden></p>
+            </div>
+            <div class="field">
+              <label class="label" for="f-phone">Telefon (nepovinné)</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="f-phone-error">
+              <p class="error" id="f-phone-error" hidden></p>
+            </div>
+            <div class="field">
+              <label class="label" for="f-type">Typ organizace</label>
+              <select id="f-type" name="type">
+                <option value="Ozbrojené síly">Ozbrojené síly</option>
+                <option value="Policie a bezpečnostní sbory">Policie a&nbsp;bezpečnostní sbory</option>
+                <option value="Výrobce nebo integrátor">Výrobce nebo integrátor</option>
+                <option value="Výcvikové centrum">Výcvikové centrum</option>
+                <option value="Jiné">Jiné</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="label" for="f-subject">Předmět</label>
+              <select id="f-subject" name="subject">
+                <option value="Poptávka SIM munice">Poptávka SIM munice</option>
+                <option value="Technická dokumentace SIM munice">Technická dokumentace SIM munice</option>
+                <option value="Poradenství a řízení projektů">Poradenství a&nbsp;řízení projektů</option>
+                <option value="Vývoj produktu">Vývoj produktu</option>
+                <option value="Zahraniční obchod s vojenským materiálem">Zahraniční obchod s&nbsp;vojenským materiálem</option>
+                <option value="Partnerství">Partnerství</option>
+                <option value="Jiné">Jiné</option>
+              </select>
+            </div>
+            <div class="field field-full">
+              <label class="label" for="f-message">Zpráva</label>
+              <textarea id="f-message" name="message" rows="6" required aria-describedby="f-message-error" placeholder="Co potřebujete? Například rozsah výcviku, počty a&nbsp;termín."></textarea>
+              <p class="error" id="f-message-error" hidden></p>
+            </div>
+            <div class="field-full">
+              <label class="consent" for="f-consent">
+                <input id="f-consent" name="consent" type="checkbox" required aria-describedby="f-consent-error">
+                <span>Souhlasím se zpracováním osobních údajů za účelem vyřízení poptávky.</span>
+              </label>
+              <p class="error" id="f-consent-error" hidden></p>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit">Odeslat poptávku
+              <svg class="ico-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3 10h12M11 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            </button>
+            <p class="form-note">Odesláním se připraví e-mail s&nbsp;vaší poptávkou.</p>
+          </div>
+        </form>
+
+        <div class="result" id="form-result" tabindex="-1" hidden>
+          <p class="label" style="color:var(--blue-soft)">Poptávka je připravena</p>
+          <h3 class="h3">Dokončete odeslání e-mailem</h3>
+          <p>Otevřete e-mail s&nbsp;předvyplněnou zprávou. Pokud se e-mailová aplikace neotevře, zkopírujte text a&nbsp;pošlete ho na adresu <span id="result-recipient">info@example.com</span>.</p>
+          <label class="label" for="result-text" style="color:var(--muted-light)">Text poptávky</label>
+          <textarea id="result-text" readonly rows="8"></textarea>
+          <div class="result-actions">
+            <a class="btn" id="result-mailto" href="mailto:info@example.com">Otevřít v&nbsp;e-mailu</a>
+            <button class="btn btn-ghost" id="result-copy" type="button">Zkopírovat text</button>
+          </div>
+          <p class="result-status" id="result-status" role="status" aria-live="polite"></p>
+          <button class="link-btn" id="result-edit" type="button">Upravit poptávku</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="WRBCZ, na začátek stránky">
+          <svg class="brand-mark" viewBox="0 0 1189 222" aria-hidden="true" focusable="false">
+            <path d="M0 222 L363 222 L463 0 L100 0 Z" fill="#FFFFFF"/>
+            <path d="M363 222 L726 222 L826 0 L463 0 Z" fill="#EC200D"/>
+            <path d="M726 222 L1089 222 L1189 0 L826 0 Z" fill="#0433FF"/>
+          </svg>
+          <span class="brand-name">WRBCZ</span>
+        </a>
+        <p>White Red Blue s.r.o. Nový typ SIM munice, poradenství, řízení projektů a&nbsp;zahraniční obchod s&nbsp;vojenským materiálem pro obranný průmysl.</p>
+      </div>
+      <div class="footer-col">
+        <h3 class="label">Navigace</h3>
+        <ul>
+          <li><a href="#sim">SIM munice</a></li>
+          <li><a href="#o-nas">O nás</a></li>
+          <li><a href="#sluzby">Služby</a></li>
+          <li><a href="#partneri">Partneři</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3 class="label">Partneři</h3>
+        <ul>
+          <li><a href="https://unitsolution.eu" target="_blank" rel="noopener noreferrer">UNIT Solutions Europe</a></li>
+          <li><a href="https://www.xmetix.com" target="_blank" rel="noopener noreferrer">Xmetix</a></li>
+          <li><a href="https://www.bagirasys.com" target="_blank" rel="noopener noreferrer">Bagira Systems</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3 class="label">Kontakt</h3>
+        <ul>
+          <li><a href="mailto:info@example.com">info@example.com</a></li>
+          <li><a href="tel:+420000000000">+420 000 000 000</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 White Red Blue s.r.o. Všechna práva vyhrazena.</span>
+      <a href="#top">Nahoru ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement;
+  var header = document.getElementById("site-header");
+  var toggle = header.querySelector(".nav-toggle");
+  var toggleText = header.querySelector(".nav-toggle-text");
+  var nav = document.getElementById("site-nav");
+  var mq = window.matchMedia("(max-width: 960px)");
+
+  /* Header background after scrolling */
+  function onScroll() { header.classList.toggle("is-scrolled", window.scrollY > 8); }
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* Mobile menu */
+  function setMenu(open) {
+    header.classList.toggle("menu-open", open);
+    root.classList.toggle("no-scroll", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? "Zavřít menu" : "Otevřít menu");
+    toggleText.textContent = open ? "Zavřít" : "Menu";
+    if (open) {
+      var first = nav.querySelector("a");
+      if (first) first.focus({ preventScroll: true });
+    }
+  }
+  toggle.addEventListener("click", function () {
+    setMenu(toggle.getAttribute("aria-expanded") !== "true");
+  });
+  nav.addEventListener("click", function (e) {
+    if (e.target.closest("a") && header.classList.contains("menu-open")) setMenu(false);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && header.classList.contains("menu-open")) {
+      setMenu(false);
+      toggle.focus();
+    }
+  });
+  function onMqChange(e) { if (!e.matches && header.classList.contains("menu-open")) setMenu(false); }
+  if (mq.addEventListener) mq.addEventListener("change", onMqChange);
+  else if (mq.addListener) mq.addListener(onMqChange);
+
+  /* Active section in navigation */
+  var navLinks = Array.prototype.slice.call(nav.querySelectorAll('.nav-links a[href^="#"]'));
+  if ("IntersectionObserver" in window && navLinks.length) {
+    var visible = {};
+    var ids = navLinks.map(function (a) { return a.getAttribute("href").slice(1); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { visible[en.target.id] = en.isIntersecting; });
+      var current = null;
+      for (var i = 0; i < ids.length; i++) { if (visible[ids[i]]) { current = ids[i]; break; } }
+      navLinks.forEach(function (a) { a.classList.toggle("is-active", a.getAttribute("href") === "#" + current); });
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    ids.forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+  }
+
+  /* Contact form */
+  var form = document.getElementById("contact-form");
+  var result = document.getElementById("form-result");
+  var resultText = document.getElementById("result-text");
+  var resultMailto = document.getElementById("result-mailto");
+  var resultCopy = document.getElementById("result-copy");
+  var resultStatus = document.getElementById("result-status");
+  var resultEdit = document.getElementById("result-edit");
+  var recipient = form.getAttribute("data-recipient") || "info@example.com";
+  var subjectSelect = document.getElementById("f-subject");
+  document.getElementById("result-recipient").textContent = recipient;
+
+  /* Buttons with data-subject preselect the form subject */
+  Array.prototype.forEach.call(document.querySelectorAll("a[data-subject]"), function (a) {
+    a.addEventListener("click", function () {
+      var subj = a.getAttribute("data-subject");
+      for (var i = 0; i < subjectSelect.options.length; i++) {
+        if (subjectSelect.options[i].value === subj) { subjectSelect.selectedIndex = i; break; }
+      }
+      if (!result.hidden) showForm(false);
+    });
+  });
+
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var phoneRe = /^[+()\d\s\/-]{6,}$/;
+  var rules = [
+    { id: "f-name", check: function (v) { return v.trim().length >= 2 ? "" : "Vyplňte prosím jméno a příjmení."; } },
+    { id: "f-org", check: function (v) { return v.trim() ? "" : "Vyplňte prosím organizaci."; } },
+    { id: "f-email", check: function (v) {
+      v = v.trim();
+      if (!v) return "Vyplňte prosím e-mail.";
+      return emailRe.test(v) ? "" : "Zadejte platnou e-mailovou adresu.";
+    } },
+    { id: "f-phone", check: function (v) {
+      v = v.trim();
+      return !v || phoneRe.test(v) ? "" : "Zadejte platné telefonní číslo.";
+    } },
+    { id: "f-message", check: function (v) { return v.trim().length >= 10 ? "" : "Napište nám prosím alespoň krátkou zprávu (min. 10 znaků)."; } },
+    { id: "f-consent", check: function (v, el) { return el.checked ? "" : "Pro odeslání je potřeba souhlas se zpracováním údajů."; } }
+  ];
+
+  function validateField(rule) {
+    var el = document.getElementById(rule.id);
+    var err = document.getElementById(rule.id + "-error");
+    var msg = rule.check(el.value, el);
+    if (msg) {
+      el.setAttribute("aria-invalid", "true");
+      err.textContent = msg;
+      err.hidden = false;
+    } else {
+      el.removeAttribute("aria-invalid");
+      err.textContent = "";
+      err.hidden = true;
+    }
+    return !msg;
+  }
+
+  rules.forEach(function (rule) {
+    var el = document.getElementById(rule.id);
+    var evt = el.type === "checkbox" ? "change" : "input";
+    el.addEventListener(evt, function () {
+      if (el.getAttribute("aria-invalid") === "true") validateField(rule);
+    });
+    if (el.type !== "checkbox") el.addEventListener("blur", function () { if (el.value) validateField(rule); });
+  });
+
+  function val(id) { return document.getElementById(id).value.trim(); }
+
+  function buildMessage() {
+    var lines = [
+      "Dobrý den,",
+      "",
+      val("f-message"),
+      "",
+      "—",
+      "Jméno: " + val("f-name"),
+      "Organizace: " + val("f-org"),
+      "Typ organizace: " + val("f-type"),
+      "E-mail: " + val("f-email")
+    ];
+    if (val("f-phone")) lines.push("Telefon: " + val("f-phone"));
+    return lines.join("\n");
+  }
+
+  function showForm(show) {
+    form.hidden = !show;
+    result.hidden = show;
+    resultStatus.textContent = "";
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var firstInvalid = null;
+    rules.forEach(function (rule) {
+      if (!validateField(rule) && !firstInvalid) firstInvalid = document.getElementById(rule.id);
+    });
+    if (firstInvalid) { firstInvalid.focus(); return; }
+
+    var subject = val("f-subject") + " – " + val("f-org");
+    var body = buildMessage();
+    resultText.value = "Předmět: " + subject + "\n\n" + body;
+    resultMailto.href = "mailto:" + recipient +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
+    showForm(false);
+    result.focus();
+  });
+
+  resultCopy.addEventListener("click", function () {
+    function done(ok) {
+      resultStatus.textContent = ok ? "Text byl zkopírován do schránky." : "Kopírování se nepodařilo. Označte text a zkopírujte ho ručně.";
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(resultText.value).then(function () { done(true); }, function () { done(false); });
+    } else {
+      resultText.focus();
+      resultText.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+      done(ok);
+    }
+  });
+
+  resultEdit.addEventListener("click", function () {
+    showForm(true);
+    document.getElementById("f-message").focus();
+  });
+})();
+</script>
+</body>
+</html>
