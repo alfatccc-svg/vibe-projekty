@@ -1,8 +1,12 @@
 # White Red Blue s.r.o. (WRBCZ) – web
 
 Jednostránkový, scrollovací web společnosti White Red Blue s.r.o. (bez záložek, kotvová navigace v hlavičce).
-Česky, responzivní od 360 px po 1920 px. Jednotný tmavý vzhled (technický list: zkosené plochy loga jako hlavní motiv,
-kótovaný výkres loga, jemná mřížka, data v monospace). Na mobilu kompaktní lišta s tlačítkem Menu, na PC kotvová navigace v liště.
+Česky, responzivní od 360 px po 1920 px. Jednotný tmavý vzhled (technický list: logo jako kótovaný objekt přes celou šířku,
+výkres konstrukce loga, jemná mřížka, data v monospace). Na mobilu kompaktní lišta s tlačítkem Menu, na PC kotvová navigace
+a tlačítko Kontakt v liště.
+
+Pořadí sekcí: úvod → 01 Kompetence (čtyři oblasti činnosti + licence jako záznam) → 02 Společnost (příběh jména a loga, výkres)
+→ 03 Partneři → 04 Zakladatel → 05 Kontakt → patička (obsah, spojení, identifikační údaje).
 
 ## Soubory
 - `index.html` – celý web v jednom souboru (CSS i JS inline, logo i favicona jako inline SVG). Stačí otevřít v prohlížeči.
@@ -13,7 +17,11 @@ kótovaný výkres loga, jemná mřížka, data v monospace). Na mobilu kompaktn
 Pouze písma z Google Fonts: Archivo (proměnné písmo s osou šířky; široký těžký řez pro název, běžný pro text) a Geist Mono (popisky, data). Bez obrázků, bez dalších skriptů.
 
 ## Co doplnit
-- Kontaktní e-mail a telefon: v `index.html` je v sekci Kontakt komentář `<!-- DOPLNIT: e-mail, telefon -->`.
+Všechna místa jsou v `index.html` označená komentářem `<!-- DOPLNIT … -->`:
+- Kontaktní e-mail, telefon a ID datové schránky (sekce Kontakt a patička).
+- Údaje o licenci pro zahraniční obchod s vojenským materiálem (číslo, datum vydání a platnost, vydávající orgán) – blok Oprávnění v sekci Kompetence.
+- Spisová značka a rejstříkový soud, případně DIČ (patička, Identifikační údaje); funkce jednatele u zakladatele podle obchodního rejstříku.
+- Anglická verze: v hlavní navigaci je připravené místo pro odkaz EN.
 - Údaje z obchodního rejstříku (IČO, sídlo, datum vzniku) v hlavičce i patičce pocházejí z veřejných zdrojů – před nasazením ověřit.
 - Text o zakladateli (vzdělání, praxe) vychází z veřejného profilu na LinkedIn – před nasazením ověřit a případně upravit v sekci `#zakladatel`.
 - Po nasazení doplnit `<link rel="canonical">`, `og:url` a `og:image` (1200×630) s finální doménou – v `<head>` je komentář `<!-- DOPLNIT po nasazení: ... -->`.
@@ -23,8 +31,8 @@ Stačí nahrát `index.html` na libovolný statický hosting (GitHub Pages, Netl
 Žádný build ani server není potřeba.
 
 ## Úpravy textů
-Každá část webu je v `index.html` samostatná `<section>` s `id`: `uvod` (hlavička s logem a claimem), `spolecnost`,
-`cinnost`, `partneri`, `zakladatel`, `kontakt`; patička je `<footer>`. Barvy a písma jsou v `:root` na začátku `<style>`.
+Každá část webu je v `index.html` samostatná `<section>` s `id`: `uvod`, `kompetence`, `spolecnost`, `partneri`,
+`zakladatel`, `kontakt`; patička je `<footer>`. Barvy a písma jsou v `:root` na začátku `<style>`.
 
 ## Kontrola
 Stránka prošla automatickou kontrolou (mobil / PC / široký monitor, světlý i tmavý režim): bez chyb JavaScriptu,
