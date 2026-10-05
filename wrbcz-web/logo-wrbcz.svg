@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 230" width="1200" height="230" role="img" aria-label="White Red Blue – logo (trikolora)">
+  <g stroke="#111111" stroke-width="2" stroke-linejoin="round">
+    <polygon points="103,4 467,4 367,226 3,226" fill="#FFFFFF"/>
+    <polygon points="467,4 831,4 731,226 367,226" fill="#EC200D"/>
+    <polygon points="831,4 1195,4 1095,226 731,226" fill="#0433FF"/>
+  </g>
+</svg>
