@@ -1,8 +1,8 @@
 # White Red Blue s.r.o. (WRBCZ) – web
 
 Jednostránkový, scrollovací web společnosti White Red Blue s.r.o. (bez záložek, kotvová navigace v hlavičce).
-Česky, responzivní od 360 px po 1920 px, světlý i tmavý režim podle nastavení systému (`prefers-color-scheme`; bez přepínače na stránce,
-vynutit lze atributem `data-theme="light"` / `data-theme="dark"` na `<html>`).
+Česky, responzivní od 360 px po 1920 px. Jednotný tmavý vzhled (technický list: zkosené plochy loga jako hlavní motiv,
+kótovaný výkres loga, jemná mřížka, data v monospace). Na mobilu kompaktní lišta s tlačítkem Menu, na PC kotvová navigace v liště.
 
 ## Soubory
 - `index.html` – celý web v jednom souboru (CSS i JS inline, logo i favicona jako inline SVG). Stačí otevřít v prohlížeči.
@@ -10,7 +10,7 @@ vynutit lze atributem `data-theme="light"` / `data-theme="dark"` na `<html>`).
   Stránka ji nenačítá, logo má vložené přímo v HTML; soubor slouží pro další použití (tiskoviny, patička e-mailu apod.).
 
 ## Externí zdroje
-Pouze písma z Google Fonts (Newsreader pro titulky, Manrope pro text). Bez obrázků, bez dalších skriptů.
+Pouze písma z Google Fonts: Archivo (proměnné písmo s osou šířky; široký těžký řez pro název, běžný pro text) a Geist Mono (popisky, data). Bez obrázků, bez dalších skriptů.
 
 ## Co doplnit
 - Kontaktní e-mail a telefon: v `index.html` je v sekci Kontakt komentář `<!-- DOPLNIT: e-mail, telefon -->`.
