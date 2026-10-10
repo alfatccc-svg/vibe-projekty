@@ -1,0 +1,40 @@
+{
+  "url": "http://127.0.0.1:8080/projekty/Slepicka_mela_by_hlidat_lihnuti_vajec_sl_2026-10-01_03-03.html",
+  "ident": "20261001-0305-bdy3f",
+  "cas": "2026-10-01T01:06:13.396Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 1,
+      "prokliknuto": 0,
+      "cas_ms": 535,
+      "http": 200,
+      "text_znaku": 519,
+      "titulek": "Slepička – Hlídač líhnutí vajec"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 1,
+      "prokliknuto": 0,
+      "cas_ms": 522,
+      "http": 200,
+      "text_znaku": 519,
+      "titulek": "Slepička – Hlídač líhnutí vajec"
+    }
+  ],
+  "chyby": [],
+  "varovani": [],
+  "verdikt": "ok"
+}

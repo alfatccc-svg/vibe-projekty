@@ -1,0 +1,40 @@
+{
+  "url": "http://127.0.0.1:8080/nahled/20260928-2337-sfn4-1.html",
+  "ident": "20260928-2337-awy1r",
+  "cas": "2026-09-28T21:38:41.247Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 1,
+      "prokliknuto": 1,
+      "cas_ms": 521,
+      "http": 200,
+      "text_znaku": 59,
+      "titulek": "Test"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 1,
+      "prokliknuto": 1,
+      "cas_ms": 511,
+      "http": 200,
+      "text_znaku": 59,
+      "titulek": "Test"
+    }
+  ],
+  "chyby": [],
+  "varovani": [],
+  "verdikt": "ok"
+}

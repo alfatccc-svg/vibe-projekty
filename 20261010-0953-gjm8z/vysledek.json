@@ -1,0 +1,40 @@
+{
+  "url": "http://127.0.0.1:8080/nahled/20261010-0953-ctun-1.html",
+  "ident": "20261010-0953-gjm8z",
+  "cas": "2026-10-10T07:53:58.794Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 11,
+      "prokliknuto": 6,
+      "cas_ms": 531,
+      "http": 200,
+      "text_znaku": 530,
+      "titulek": "Správa a plánovač údržby"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [],
+      "preteceni": false,
+      "tlacitek": 11,
+      "prokliknuto": 6,
+      "cas_ms": 529,
+      "http": 200,
+      "text_znaku": 530,
+      "titulek": "Správa a plánovač údržby"
+    }
+  ],
+  "chyby": [],
+  "varovani": [],
+  "verdikt": "ok"
+}

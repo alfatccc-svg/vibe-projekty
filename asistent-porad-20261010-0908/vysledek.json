@@ -1,0 +1,61 @@
+{
+  "url": "http://127.0.0.1:8080/aplikace/asistent-porad/index.html",
+  "ident": "asistent-porad-20261010-0908",
+  "cas": "2026-10-10T09:09:28.637Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [],
+      "konzole": [
+        "Executing inline script violates the following Content Security Policy directive 'script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval''. Either the 'unsafe-inline' keyword, a hash ('sha256-wk"
+      ],
+      "nenactene": [],
+      "pristupnost": [
+        {
+          "id": "axe-nespusten",
+          "dopad": "minor",
+          "popis": "page.addScriptTag: Executing inline script violates the following Content Security Policy directive ",
+          "prvku": 0
+        }
+      ],
+      "preteceni": false,
+      "tlacitek": 3,
+      "prokliknuto": 2,
+      "cas_ms": 550,
+      "http": 200,
+      "text_znaku": 655,
+      "titulek": "Asistent porad"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [],
+      "konzole": [
+        "Executing inline script violates the following Content Security Policy directive 'script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval''. Either the 'unsafe-inline' keyword, a hash ('sha256-wk"
+      ],
+      "nenactene": [],
+      "pristupnost": [
+        {
+          "id": "axe-nespusten",
+          "dopad": "minor",
+          "popis": "page.addScriptTag: Executing inline script violates the following Content Security Policy directive ",
+          "prvku": 0
+        }
+      ],
+      "preteceni": false,
+      "tlacitek": 3,
+      "prokliknuto": 2,
+      "cas_ms": 535,
+      "http": 200,
+      "text_znaku": 655,
+      "titulek": "Asistent porad"
+    }
+  ],
+  "chyby": [],
+  "varovani": [
+    "Mobil (iPhone 13): konzole – Executing inline script violates the following Content Security Policy directive 'script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval''. Either the 'unsafe-inline' keyword, a hash ('sha256-wk",
+    "Počítač 1366×800: konzole – Executing inline script violates the following Content Security Policy directive 'script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval''. Either the 'unsafe-inline' keyword, a hash ('sha256-wk"
+  ],
+  "verdikt": "varovani"
+}

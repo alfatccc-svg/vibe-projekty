@@ -1,0 +1,56 @@
+{
+  "url": "http://127.0.0.1:8080/projekty/Udelej_kalkulacku_na_spropitne_2026-09-25_02-58.html",
+  "ident": "20260928-2125-1qfh4",
+  "cas": "2026-09-28T19:26:21.129Z",
+  "zarizeni": [
+    {
+      "klic": "mobil",
+      "nazev": "Mobil (iPhone 13)",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [
+        {
+          "id": "color-contrast",
+          "dopad": "serious",
+          "popis": "Elements must meet minimum color contrast ratio thresholds",
+          "prvku": 10
+        }
+      ],
+      "preteceni": false,
+      "tlacitek": 5,
+      "prokliknuto": 5,
+      "cas_ms": 526,
+      "http": 200,
+      "text_znaku": 167,
+      "titulek": "Kalkulačka spropitného"
+    },
+    {
+      "klic": "pocitac",
+      "nazev": "Počítač 1366×800",
+      "js_chyby": [],
+      "konzole": [],
+      "nenactene": [],
+      "pristupnost": [
+        {
+          "id": "color-contrast",
+          "dopad": "serious",
+          "popis": "Elements must meet minimum color contrast ratio thresholds",
+          "prvku": 10
+        }
+      ],
+      "preteceni": false,
+      "tlacitek": 5,
+      "prokliknuto": 5,
+      "cas_ms": 515,
+      "http": 200,
+      "text_znaku": 167,
+      "titulek": "Kalkulačka spropitného"
+    }
+  ],
+  "chyby": [],
+  "varovani": [
+    "Přístupnost (vážné): Elements must meet minimum color contrast ratio thresholds – 10×"
+  ],
+  "verdikt": "varovani"
+}
