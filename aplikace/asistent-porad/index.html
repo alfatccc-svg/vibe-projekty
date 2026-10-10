@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1720">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net https://huggingface.co https://*.huggingface.co https://*.hf.co; media-src 'self' blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Asistent porad</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="styl.css">
+</head>
+<body>
+<header class="lista">
+  <button class="zpet" id="zpet" aria-label="Zpět" hidden>‹</button>
+  <h1 id="nadpis">Asistent porad</h1>
+  <span class="stav" id="stavSite" role="status"></span>
+</header>
+
+<main id="obsah">
+
+  <!-- DOMŮ -->
+  <section data-view="domu">
+    <div class="karta hlavni">
+      <p class="popis">Zápis, rozhodnutí a úkoly z porady. Nahrávka i přepis zůstávají jen v tomto zařízení.</p>
+      <button class="velke" id="novaPorada">● Nová porada</button>
+      <button class="druhe" id="vlozitText">Zpracovat přepis z textu</button>
+    </div>
+    <div class="karta" id="pripravenostKarta">
+      <h2>Připravenost offline</h2>
+      <ul class="kontrola" id="pripravenost"></ul>
+      <button class="druhe" id="stahnoutModel">Stáhnout model pro přepis</button>
+      <p class="mala" id="modelInfo"></p>
+    </div>
+    <div class="karta">
+      <h2>Paměť porad</h2>
+      <input type="search" id="hledat" placeholder="Hledat: rozhodnutí, úkol, jméno…" aria-label="Hledat v poradách">
+      <div id="vysledkyHledani"></div>
+      <h3>Otevřené úkoly</h3>
+      <div id="otevreneUkoly"></div>
+      <h3>Porady</h3>
+      <div id="seznamPorad"></div>
+    </div>
+    <p class="mala patka"><a href="#" id="odkazNastaveni">Nastavení</a> · Preview verze · data jen lokálně</p>
+  </section>
+
+  <!-- PŘÍPRAVA -->
+  <section data-view="priprava" hidden>
+    <div class="karta">
+      <label>Název porady<input id="pNazev" placeholder="např. Porada vedení"></label>
+      <label>Účastníci (oddělte čárkou)<input id="pUcastnici" placeholder="Jan, Petra, Martin"></label>
+      <label>Jazyk
+        <select id="pJazyk"><option value="czech">Čeština</option><option value="english">Angličtina</option></select>
+      </label>
+      <label class="prepinac"><input type="checkbox" id="pSecure" checked> Secure režim (žádná síť během porady)</label>
+      <div class="upozorneni" id="pSecureRada">Před startem zapněte <b>režim Letadlo</b>. Aplikace během secure porady blokuje veškerou síťovou komunikaci a akce ukládá do outboxu.</div>
+      <p class="mala">Účastníci budou upozorněni na nahrávání – oznamte to prosím na začátku porady.</p>
+      <button class="velke" id="startPorady">● Zahájit poradu</button>
+    </div>
+  </section>
+
+  <!-- ZÁZNAM -->
+  <section data-view="zaznam" hidden>
+    <div class="karta zaznam">
+      <div class="cas" id="zCas">00:00</div>
+      <div class="meter"><div id="zMeter"></div></div>
+      <p class="mala" id="zStav">Nahrávám…</p>
+      <h2>Kdo teď mluví?</h2>
+      <p class="mala">Klepnutím označíte mluvčího (ruční rozlišení mluvčích).</p>
+      <div class="mluvci" id="zMluvci"></div>
+      <button class="velke stop" id="stopPorady">■ Ukončit poradu</button>
+    </div>
+  </section>
+
+  <!-- TEXTOVÝ VSTUP -->
+  <section data-view="text" hidden>
+    <div class="karta">
+      <label>Název porady<input id="tNazev" placeholder="např. Porada vedení"></label>
+      <label>Účastníci (oddělte čárkou)<input id="tUcastnici" placeholder="Jan, Petra, Martin"></label>
+      <label>Přepis (jeden řádek = jeden úsek; volitelně „Jméno: text“)
+        <textarea id="tText" rows="12"></textarea></label>
+      <button class="druhe" id="tUkazka">Vložit ukázkovou poradu</button>
+      <button class="velke" id="tZpracovat">Zpracovat</button>
+    </div>
+  </section>
+
+  <!-- ZPRACOVÁNÍ -->
+  <section data-view="zpracovani" hidden>
+    <div class="karta">
+      <h2>Zpracování porady</h2>
+      <ol class="kroky" id="kroky"></ol>
+      <div class="meter"><div id="zpProgres"></div></div>
+      <p class="mala" id="zpInfo"></p>
+    </div>
+  </section>
+
+  <!-- REVIEW -->
+  <section data-view="review" hidden>
+    <div class="karta">
+      <h2 id="rNazev"></h2>
+      <p class="mala" id="rMeta"></p>
+      <div class="otisk" id="rOtisk"></div>
+      <audio id="rAudio" controls preload="metadata" hidden></audio>
+    </div>
+    <div class="karta">
+      <h2>Shrnutí</h2>
+      <div id="rShrnuti"></div>
+    </div>
+    <div class="karta">
+      <div class="zalozky" role="tablist">
+        <button role="tab" data-typ="rozhodnuti" aria-selected="true">Rozhodnutí</button>
+        <button role="tab" data-typ="ukol">Úkoly</button>
+        <button role="tab" data-typ="otazka">Otázky</button>
+        <button role="tab" data-typ="riziko">Rizika</button>
+      </div>
+      <div id="rNalezy"></div>
+    </div>
+    <div class="karta">
+      <h2>Mluvčí</h2>
+      <div id="rMluvci"></div>
+    </div>
+    <div class="karta">
+      <details><summary><h2 class="inline">Přepis</h2></summary><div id="rPrepis"></div></details>
+    </div>
+    <div class="karta">
+      <h2>Export a akce</h2>
+      <button class="druhe" id="exPdf">Zápis – tisk / PDF</button>
+      <button class="druhe" id="exMd">Zápis – Markdown</button>
+      <button class="druhe" id="exCsv">Úkoly – CSV (Excel)</button>
+      <button class="druhe" id="exBalik">Celý balík (JSON s otisky)</button>
+      <button class="druhe" id="doOutboxu">Připravit e-mail účastníkům do outboxu</button>
+      <button class="druhe" id="doKalendare">Připravit navazující schůzku do outboxu</button>
+      <button class="druhe" id="overitOtisk">Ověřit originál nahrávky</button>
+    </div>
+    <div class="karta">
+      <h2>Outbox</h2>
+      <div id="rOutbox"></div>
+    </div>
+    <div class="karta">
+      <details><summary><h2 class="inline">Auditní log</h2></summary><div id="rAudit"></div></details>
+    </div>
+  </section>
+
+  <!-- NASTAVENÍ -->
+  <section data-view="nastaveni" hidden>
+    <div class="karta">
+      <label>Model pro přepis
+        <select id="nModel">
+          <option value="onnx-community/whisper-tiny">Whisper tiny (~45 MB, nejrychlejší)</option>
+          <option value="onnx-community/whisper-base" selected>Whisper base (~80 MB, doporučeno)</option>
+          <option value="onnx-community/whisper-small">Whisper small (~250 MB, přesnější, pomalé)</option>
+        </select></label>
+      <label>Úroveň automatizace
+        <select id="nAutomatizace">
+          <option value="conservative">Conservative – vše jen navrhnout</option>
+          <option value="standard" selected>Standard – připravit, neodesílat</option>
+          <option value="high">High – po schválení provést</option>
+        </select></label>
+      <button class="druhe" id="nSmazat">Smazat všechna data v zařízení</button>
+      <p class="mala">Verze preview 0.1 · rozpoznání řeči: Whisper (OpenAI, MIT) přes transformers.js (Apache-2.0), běží v zařízení.</p>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

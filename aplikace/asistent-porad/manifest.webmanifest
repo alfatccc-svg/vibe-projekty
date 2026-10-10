@@ -1,0 +1,12 @@
+{
+  "name": "Asistent porad",
+  "short_name": "Porady",
+  "description": "Zápis, rozhodnutí a úkoly z porady – offline, data jen v zařízení.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1720",
+  "theme_color": "#0f1720",
+  "lang": "cs",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
