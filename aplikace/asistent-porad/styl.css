@@ -48,8 +48,8 @@ input,select,textarea{display:block;width:100%;margin-top:4px;padding:10px;font:
 .kroky li.hotovo{color:var(--ok)}.kroky li.bezi{font-weight:600}
 .otisk{font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all;color:var(--tlumene);margin:8px 0}
 audio{width:100%;margin-top:8px}
-.zalozky{display:flex;gap:4px;overflow-x:auto;margin-bottom:10px}
-.zalozky button{flex:1;border:1px solid var(--okraj);background:transparent;color:var(--text);padding:8px 6px;font-size:14px;white-space:nowrap}
+.zalozky{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px}
+.zalozky button{border:1px solid var(--okraj);background:transparent;color:var(--text);padding:8px 6px;font-size:14px;white-space:nowrap}
 .zalozky button[aria-selected="true"]{background:var(--hlavni);color:var(--hlavni-text);border-color:var(--hlavni)}
 .nalez{border:1px solid var(--okraj);border-radius:10px;padding:12px;margin-bottom:8px}
 .nalez p{margin:0 0 6px}

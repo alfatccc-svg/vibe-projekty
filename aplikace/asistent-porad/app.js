@@ -471,8 +471,8 @@ $('#exPdf').onclick = async () => {
   const html = md.split('\n').map(r => r.startsWith('# ') ? `<h1>${esc(r.slice(2))}</h1>` : r.startsWith('## ') ? `<h2>${esc(r.slice(3))}</h2>` : r.startsWith('- ') ? `<li>${esc(r.slice(2))}</li>` : r.trim() ? `<p>${esc(r)}</p>` : '').join('');
   const w = window.open('', '_blank');
   if (!w) return stahni(souborNazev(d.p) + '_zapis.html', `<meta charset=utf-8><body>${html}`, 'text/html');
-  w.document.write(`<!doctype html><meta charset=utf-8><title>${esc(d.p.nazev)}</title><style>body{font:14px/1.5 system-ui;margin:24px;color:#000}h1{font-size:20px}h2{font-size:16px;margin-top:18px}li{margin:4px 0}</style>${html}<script>onload=()=>print()<\/script>`);
-  w.document.close(); await audit('uzivatel', 'export-pdf', d.p.id);
+  w.document.write(`<!doctype html><meta charset=utf-8><title>${esc(d.p.nazev)}</title><style>body{font:14px/1.5 system-ui;margin:24px;color:#000}h1{font-size:20px}h2{font-size:16px;margin-top:18px}li{margin:4px 0}</style>${html}`);
+  w.document.close(); w.focus(); setTimeout(() => w.print(), 300); await audit('uzivatel', 'export-pdf', d.p.id);
 };
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/_\((.+?)\)_/g, '<i>($1)</i>');
 

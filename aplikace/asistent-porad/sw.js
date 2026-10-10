@@ -1,6 +1,6 @@
 // Service worker: offline běh aplikace + síťová brána secure režimu.
 // V secure režimu odmítne VŠECHNY požadavky mimo vlastní původ a mimo cache.
-const VERZE = 'ap-0.1.0';
+const VERZE = 'ap-0.1.1';
 const SKORAPKA = ['./', 'index.html', 'styl.css', 'app.js', 'analyza.js', 'uloziste.js',
   'prepis-worker.js', 'manifest.webmanifest', 'icon.svg'];
 const CDN_CACHE = 'ap-cdn';
