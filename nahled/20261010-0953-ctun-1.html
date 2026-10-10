@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Správa a plánovač údržby</title>
+  <style>
+    :root {
+      --bg-main: #ffffff;
+      --card-bg: #f5f6f8;
+      --text-main: #1a1d23;
+      --text-muted: #5a6270;
+      --primary: #1f5fbf;
+      --primary-hover: #184ca0;
+      --accent: #c2410c;
+      --error: #b42318;
+      --error-bg: #fef2f2;
+      --success: #067647;
+      --success-bg: #ecfdf5;
+      --warning-bg: #fffaeb;
+      --border: #d0d5dd;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 16px;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--card-bg);
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    /* Stats Overview */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .stat-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-value.overdue {
+      color: var(--error);
+    }
+
+    .stat-value.completed {
+      color: var(--success);
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Actions Bar */
+    .actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .filter-btn {
+      min-height: 44px;
+      padding: 8px 16px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter-btn.active {
+      background-color: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .filter-btn:focus-visible, .btn:
+focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .btn {
+      min-height: 44px;
+      padding: 10px 18px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: #e5e7eb;
+    }
+
+    .btn-danger {
+      background-color: var(--error);
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      background-color: #991b1b;
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: #ffffff;
+    }
+
+    .btn-success:hover {
+      background-color: #05603a;
+    }
+
+    .btn-sm {
+      min-height: 44px;
+      padding: 6px 12px;
+      font-size: 0.875rem;
+    }
+
+    /* Task List */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .task-card {
+      background-color: #ffffff;
+      border: 1px solid var(--border);
+      border-left: 6px solid var(--primary);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .task-card.overdue {
+      border-left-color: var(--error);
+      background-color: var(--error-bg);
+    }
+
+    .task-card.completed {
+      border-left-color: var(--success);
+      opacity: 0.85;
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .task-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .task-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .badge-category {
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-overdue {
+      background-color: #fee2e2;
+      color: var(--error);
+    }
+
+    .badge-interval {
+      background-color: #f3f4f6;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .task-body {
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .task-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .due-date {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .due-date.overdue-text {
+      color: var(--error);
+    }
+
+    .due-date.completed-text {
+      color: var(--success);
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(26, 29, 35, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-content {
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      max-width: 550px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 500px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #ffffff;
+      color: var(--text-main);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 16px;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+    }
+
+    .empty-state h3 {
+      font-size: 1.1rem;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div>
+        <h1>🛠️ Správa údržby</h1>
+        <p>Plánování, evidence a sledování servisních úkonů a kontroly</p>
+      </div>
+    </header>
+
+    <!-- Prehled statistiky -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value overdue" id="statOverdue">0</div>
+        <div class="stat-label">Po termínu</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statPending">0</div>
+        <div class="stat-label">Nadcházející</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value completed" id="statCompleted">0</div>
+        <div class="stat-label">Hotovo</div>
+      </div>
+    </div>
+
+    <!-- Ovladaci lista -->
+    <div class="actions-bar">
+      <div class="filters" role="tablist" aria-label="Filtr úkolů">
+        <button class="filter-btn active" onclick="setFilter('all')" id="btnFilterAll" role="tab" aria-selected="true">Všechny</button>
+        <button class="filter-btn" onclick="setFilter('overdue')" id="btnFilterOverdue" role="tab" aria-selected="false">Po termínu</button>
+        <button class="filter-btn" onclick="setFilter('pending')" id="btnFilterPending" role="tab" aria-selected="false">Nadcházející</button>
+        <button class="filter-btn" onclick="setFilter('completed')" id="btnFilterCompleted" role="tab" aria-selected="false">Hotové</button>
+      </div>
+      <button class="btn" onclick="openModal()">
+        ➕ Přidat údržbu
+      </button>
+    </div>
+
+    <!-- Seznam ukolu -->
+    <main>
+      <div id="taskList" class="task-list">
+        <!-- Dynamicky generovane ukoly -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal formular pro pridani / upravu -->
+  <div id="taskModal" class="modal-backdrop hidden" aria-modal="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <h2 id="modalTitle" class="modal-title">Nová údržba</h2>
+      <form id="taskForm">
+        <input type="hidden" id="taskId">
+
+        <div class="form-group">
+          <label for="taskName">Zařízení / Název úkonu</label>
+          <input type="text" id="taskName" placeholder="např. Líheň, Traktor, Výměna filtru" required>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="taskCategory">Kategorie</label>
+            <select id="taskCategory" required>
+              <option value="Stroje & Technika">Stroje & Technika</option>
+              <option value="Budovy & Areal">Budovy & Areál</option>
+              <option value="Auto & Doprava">Auto & Doprava</option>
+              <option value="Zařízení dílny">Zařízení dílny</option>
+              <option value="Ostatní">Ostatní</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="taskDueDate">Datum příští údržby</label>
+            <input type="date" id="taskDueDate" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="taskInterval">Opakování údržby</label>
+          <select id="taskInterval">
+            <option value="once">Jednorázově</option>
+            <option value="7">Týdně (každých 7 dní)</option>
+            <option value="30">Měsíčně (každých 30 dní)</option>
+            <option value="90">Kvartálně (každých 90 dní)</option>
+            <option value="365">Ročně (každých 365 dní)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="taskNotes">Popis / Poznámky k provedení</label>
+          <textarea id="taskNotes" placeholder="Doporučený postup, typ oleje, specifikace náhradních dílů..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Zrušit</button>
+          <button type="submit" class="btn">Uložit údržbu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'vincak_udrzba_tasks_v1';
+    let tasks = [];
+    let currentFilter = 'all';
+
+    // Nacist z LocalStorage
+    function loadTasks() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          tasks = JSON.parse(stored);
+        } catch(e) {
+          tasks = [];
+        }
+      } else {
+        // Ukazkova data
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 2);
+        const nextWeek = new Date(today);
+        nextWeek.setDate(nextWeek.getDate() + 5);
+
+        tasks = [
+          {
+            id: '1',
+            name: 'Kontrola a dezinfekce líhně',
+            category: 'Stroje & Technika',
+            dueDate: yesterday.toISOString().slice(0, 10),
+            interval: '30',
+            notes: 'Vyčistit ventilátor, zkontrolovat topné těleso a zkalibrovat teploměr.',
+            completed: false
+          },
+          {
+            id: '2',
+            name: 'Výměna oleje a filtrů v traktoru',
+            category: 'Auto & Doprava',
+            dueDate: nextWeek.toISOString().slice(0, 10),
+            interval: '365',
+            notes: 'Použít motorový olej 15W-40, vyměnit palivový i vzduchový filtr.',
+            completed: false
+          }
+        ];
+        saveTasks();
+      }
+    }
+
+    function saveTasks() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    }
+
+    function formatCzechDate(dateStr) {
+      if (!dateStr) return '';
+      const [year, month, day] = dateStr.split('-');
+      return `${parseInt(day, 10)}. ${parseInt(month, 10)}. ${year}`;
+    }
+
+    function isOverdue(dueDateStr, isCompleted) {
+      if (isCompleted) return false;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const due = new Date(dueDateStr);
+      due.setHours(0, 0, 0, 0);
+      return due < today;
+    }
+
+    function updateStats() {
+      let overdueCount = 0;
+      let pendingCount = 0;
+      let completedCount = 0;
+
+      tasks.forEach(t => {
+        if (t.completed) {
+          completedCount++;
+        } else if (isOverdue(t.dueDate, t.completed)) {
+          overdueCount++;
+        } else {
+          pendingCount++;
+        }
+      });
+
+      document.getElementById('statOverdue').innerText = overdueCount;
+      document.getElementById('statPending').innerText = pendingCount;
+      document.getElementById('statCompleted').innerText = completedCount;
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+
+      const activeBtn = document.getElementById(`btnFilter${filter.charAt(0).toUpperCase() + filter.slice(1)}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.setAttribute('aria-selected', 'true');
+      }
+
+      renderTasks();
+    }
+
+    function renderTasks() {
+      updateStats();
+      const listContainer = document.getElementById('taskList');
+
+      let filteredTasks = tasks.filter(t => {
+        const overdue = isOverdue(t.dueDate, t.completed);
+        if (currentFilter === 'overdue') return overdue && !t.completed;
+        if (currentFilter === 'pending') return !overdue && !t.completed;
+        if (currentFilter === 'completed') return t.completed;
+        return true;
+      });
+
+      // Seradit: Po terminu nahore, pak podle data
+      filteredTasks.sort((a, b) => {
+        if (a.completed !== b.completed) return a.completed ? 1 : -1;
+        return new Date(a.dueDate) - new Date(b.dueDate);
+      });
+
+      if (filteredTasks.length === 0) {
+        listContainer.innerHTML = `
+          <div class="empty-state">
+            <h3>Žádné záznamy v této záložce</h3>
+            <p>Všechny úkoly údržby jsou splněny nebo nebyly nalezeny.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = filteredTasks.map(t => {
+        const overdue = isOverdue(t.dueDate, t.completed);
+        const cardClass = t.completed ? 'task-card completed' : (overdue ? 'task-card overdue' : 'task-card');
+        
+        let intervalText = 'Jednorázově';
+        if (t.interval === '7') intervalText = 'Týdně';
+        else if (t.interval === '30') intervalText = 'Měsíčně';
+        else if (t.interval === '90') intervalText = 'Kvartálně';
+        else if (t.interval === '365') intervalText = 'Ročně';
+
+        return `
+          <div class="${cardClass}">
+            <div class="task-header">
+              <div>
+                <div class="task-title">${escapeHtml(t.name)}</div>
+                <div class="task-meta" style="margin-top: 4px;">
+                  <span class="badge badge-category">${escapeHtml(t.category)}</span>
+                  <span class="badge badge-interval">🔄 ${intervalText}</span>
+                  ${overdue ? '<span class="badge badge-overdue">⚠️ PO TERMÍNU</span>' : ''}
+                </div>
+              </div>
+            </div>
+
+            ${t.notes ? `<div class="task-body">${escapeHtml(t.notes)}</div>` : ''}
+
+            <div class="task-footer">
+              <div class="due-date ${t.completed ? 'completed-text' : (overdue ? 'overdue-text' : '')}">
+                ${t.completed ? '✅ Dokončeno' : `Termín: ${formatCzechDate(t.dueDate)}`}
+              </div>
+              <div class="task-actions">
+                ${!t.completed ? `
+                  <button class="btn btn-success btn-sm" onclick="completeTask('${t.id}')">
+                    ✓ Provedeno
+                  </button>
+                ` : `
+                  <button class="btn btn-secondary btn-sm" onclick="uncompleteTask('${t.id}')">
+                    ↩ Obnovit
+                  </button>
+                `}
+                <button class="btn btn-secondary btn-sm" onclick="editTask('${t.id}')" aria-label="Upravit ${escapeHtml(t.name)}">
+                  ✏️ Upravit
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deleteTask('${t.id}')" aria-label="Smazat ${escapeHtml(t.name)}">
+                  🗑️
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function openModal(taskId = null) {
+      document.getElementById('taskForm').reset();
+      document.getElementById('taskId').value = '';
+      
+      if (taskId) {
+        const task = tasks.find(t => t.id === taskId);
+        if (task) {
+          document.getElementById('modalTitle').innerText = 'Úprava údržby';
+          document.getElementById('taskId').value = task.id;
+          document.getElementById('taskName').value = task.name;
+          document.getElementById('taskCategory').value = task.category;
+          document.getElementById('taskDueDate').value = task.dueDate;
+          document.getElementById('taskInterval').value = task.interval || 'once';
+          document.getElementById('taskNotes').value = task.notes || '';
+        }
+      } else {
+        document.getElementById('modalTitle').innerText = 'Nová údržba';
+        document.getElementById('taskDueDate').valueAsDate = new Date();
+      }
+
+      document.getElementById('taskModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('taskModal').classList.add('hidden');
+    }
+
+    function editTask(id) {
+      openModal(id);
+    }
+
+    function completeTask(id) {
+      const task = tasks.find(t => t.id === id);
+      if (!task) return;
+
+      if (task.interval && task.interval !== 'once') {
+        // Opakovana udrzba: Posunout datum na dalsi interval!
+        const days = parseInt(task.interval, 10);
+        const currentDue = new Date(task.dueDate);
+        const nextDue = new Date(currentDue);
+        
+        // Pokud byla udrzba hodne po terminu, pocitat od dneska
+        const today = new Date();
+        if (currentDue < today) {
+          nextDue.setTime(today.getTime());
+        }
+        
+        nextDue.setDate(nextDue.getDate() + days);
+        
+        task.dueDate = nextDue.toISOString().slice(0, 10);
+        task.completed = false; // zustava aktivni pro dalsi termi
+        alert(`Údržba byla označena jako provedená. Další termín stanoven na ${formatCzechDate(task.dueDate)}.`);
+      } else {
+        task.completed = true;
+      }
+
+      saveTasks();
+      renderTasks();
+    }
+
+    function uncompleteTask(id) {
+      const task = tasks.find(t => t.id === id);
+      if (!task) return;
+      task.completed = false;
+      saveTasks();
+      renderTasks();
+    }
+
+    function deleteTask(id) {
+      if (confirm('Opravdu chcete tento záznam o údržbě smazat?')) {
+        tasks = tasks.filter(t => t.id !== id);
+        saveTasks();
+        renderTasks();
+      }
+    }
+
+    document.getElementById('taskForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const id = document.getElementById('taskId').value;
+      const name = document.getElementById('taskName').value.trim();
+      const category = document.getElementById('taskCategory').value;
+      const dueDate = document.getElementById('taskDueDate').value;
+      const interval = document.getElementById('taskInterval').value;
+      const notes = document.getElementById('taskNotes').value.trim();
+
+      if (!name || !dueDate) return;
+
+      if (id) {
+        const task = tasks.find(t => t.id === id);
+        if (task) {
+          task.name = name;
+          task.category = category;
+          task.dueDate = dueDate;
+          task.interval = interval;
+          task.notes = notes;
+        }
+      } else {
+        tasks.unshift({
+          id: Date.now().toString(),
+          name,
+          category,
+          dueDate,
+          interval,
+          notes,
+          completed: false
+        });
+      }
+
+      saveTasks();
+      renderTasks();
+      closeModal();
+    });
+
+    // Inicializace
+    loadTasks();
+    renderTasks();
+  </script>
+</body>
+</html>
